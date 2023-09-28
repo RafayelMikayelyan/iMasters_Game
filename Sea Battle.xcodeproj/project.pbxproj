@@ -11,6 +11,7 @@
 		570863D42AB9C6CA00CB8CAA /* MapShipsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */; };
 		570863D92AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */; };
 		570863DB2AB9F74200CB8CAA /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863DA2AB9F74200CB8CAA /* PlayerCell.swift */; };
+		57272F302AC5E225006FC2B3 /* PlayersTableViewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57272F2F2AC5E225006FC2B3 /* PlayersTableViewFooterView.swift */; };
 		5734305C2AC22B5300353C3C /* BattleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5734305B2AC22B5300353C3C /* BattleViewController.swift */; };
 		5734305E2AC237CC00353C3C /* ErrorMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5734305D2AC237CC00353C3C /* ErrorMessageView.swift */; };
 		574813522AB9C30500CE9EE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574813512AB9C30500CE9EE2 /* AppDelegate.swift */; };
@@ -43,6 +44,7 @@
 		570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapShipsFooterView.swift; sourceTree = "<group>"; };
 		570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModelCollectionView.swift; sourceTree = "<group>"; };
 		570863DA2AB9F74200CB8CAA /* PlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
+		57272F2F2AC5E225006FC2B3 /* PlayersTableViewFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersTableViewFooterView.swift; sourceTree = "<group>"; };
 		5734305B2AC22B5300353C3C /* BattleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleViewController.swift; sourceTree = "<group>"; };
 		5734305D2AC237CC00353C3C /* ErrorMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageView.swift; sourceTree = "<group>"; };
 		5748134E2AB9C30500CE9EE2 /* Sea Battle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sea Battle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */,
+				57272F2F2AC5E225006FC2B3 /* PlayersTableViewFooterView.swift */,
 			);
 			path = FooterViews;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				57611F012AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift in Sources */,
 				57CEF4B42AC2F92A006BB3CD /* ViewModelForBattleViewController.swift in Sources */,
 				574813692AB9C37800CE9EE2 /* CellForMapAndShips.swift in Sources */,
+				57272F302AC5E225006FC2B3 /* PlayersTableViewFooterView.swift in Sources */,
 				575B5EBF2AC4DAA900065601 /* CellForPlayersTableView.swift in Sources */,
 				57C84B4E2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift in Sources */,
 				5734305E2AC237CC00353C3C /* ErrorMessageView.swift in Sources */,
