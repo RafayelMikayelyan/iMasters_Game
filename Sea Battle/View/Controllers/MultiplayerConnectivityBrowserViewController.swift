@@ -50,17 +50,23 @@ final class MultiplayerConnectivityBrowserViewController: UIViewController {
             self.playersTableView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
         ])
         
-        self.viewModel.functionalityWhenDataRecieved = {
-            self.playersTableView.reloadData()
-        }
-        self.viewModel.setDelegateForConnectivity()
-//        self.viewModel.configuireDataModel()
-        self.viewModel.getDataFromDataModel()
+        configuireViewModel()
     }
     
     func setViewModelMultipeerConectivityHandler(with handler: MultiplayerConectionAsMPCHandler) {
         self.viewModel.setConnectivityHandler(with: handler)
     }
+    
+    func configuireViewModel() {
+        self.viewModel.functionalityWhenDataRecieved = {
+            DispatchQueue.main.async(qos: .userInteractive) {
+                self.playersTableView.reloadData()
+            }
+        }
+        self.viewModel.setDelegateForConnectivity()
+        self.viewModel.getDataFromDataModel()
+    }
+    
 }
 
 extension MultiplayerConnectivityBrowserViewController: UITableViewDataSource {
@@ -79,6 +85,14 @@ extension MultiplayerConnectivityBrowserViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.playersTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CellForPlayersTableView
         cell.configuration(name: self.viewModel.givenDataForPlayerNames[indexPath.row], icon: self.viewModel.givenDataForPlayerIcons[indexPath.row])
+        switch self.viewModel.givenDataForConnectionStates[indexPath.row] {
+        case .notNonnected:
+            cell.setStateLabelText(with: "Not Connected")
+        case .connecting:
+            cell.setStateLabelText(with: "Connecting...")
+        case .connected:
+            cell.setStateLabelText(with: "Connected...")
+        }
         return cell
     }
     
@@ -104,11 +118,10 @@ extension MultiplayerConnectivityBrowserViewController: UITableViewDataSource {
 }
 
 extension MultiplayerConnectivityBrowserViewController:UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.playersTableView.deselectRow(at: indexPath, animated: true)
-        self.viewModel.multipeerConnectivityForPlayers.browserForConnect.invitePeer(self.viewModel.providePeerId(at: indexPath), to: self.viewModel.multipeerConnectivityForPlayers.multiplayerSession, withContext: nil, timeout: 30)
-        let cell = self.playersTableView.cellForRow(at: indexPath) as! CellForPlayersTableView
-        cell.setStateLabelText(with: "Connecting...")
+        self.viewModel.multipeerConnectivityForPlayers.setInviterIndex(with: indexPath)
+        self.viewModel.multipeerConnectivityForPlayers.browserForConnect.invitePeer(self.viewModel.providePeerId(at: indexPath), to: self.viewModel.multipeerConnectivityForPlayers.multiplayerSession, withContext: "\(indexPath.row),\(indexPath.section)".data(using: .utf8), timeout: 30)
+        self.viewModel.setConnectionState(for: indexPath, with: .connecting)
     }
 }

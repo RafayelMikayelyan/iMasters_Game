@@ -17,7 +17,8 @@ final class PlayersTableViewFooterView: UITableViewHeaderFooterView {
     
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.style = .large
+        activityIndicator.style = .medium
+        activityIndicator.color = .white
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator

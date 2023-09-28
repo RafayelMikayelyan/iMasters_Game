@@ -13,6 +13,12 @@ enum DataType {
     case get
 }
 
+enum ConnectingState {
+    case notNonnected
+    case connecting
+    case connected
+}
+
 struct DataSourceForPlayersTableView {
     
     private var dataSource: [MCPeerID] = [MCPeerID]() {
@@ -21,10 +27,17 @@ struct DataSourceForPlayersTableView {
         }
     }
     
+    private var connectingState: [ConnectingState] = [ConnectingState]()
+    
     var functionalityWhenDataRecieved: () -> Void = {}
     
     func provideDataForNames() -> [String] {
         return self.dataSource.map({String(($0.displayName.split(separator: ","))[0])})
+    }
+    
+    mutating func setUpWithConnectionStates() -> [ConnectingState] {
+        self.connectingState = [ConnectingState].init(repeating: .notNonnected, count: self.dataSource.count)
+        return self.connectingState
     }
     
     func provideDataForIcons() -> [String] {
@@ -39,6 +52,10 @@ struct DataSourceForPlayersTableView {
             self.dataSource.append(data)
             print(self.dataSource)
         }
+    }
+    
+    mutating func setConnectionState(for index: IndexPath, with state: ConnectingState) {
+        self.connectingState[index.row] = state
     }
     
     func providePeerId(at index: IndexPath) -> MCPeerID {

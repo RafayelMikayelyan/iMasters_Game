@@ -9,9 +9,16 @@ import Foundation
 import MultipeerConnectivity
 
 extension ViewModelForPlayersTableView: PeerIDReciever {
+   
+    
     func getPeerId(peerId: MCPeerID, with type: DataType) {
         self.dataModel.handleIncomingData(data: peerId, with: type)
         self.getDataFromDataModel()
+    }
+    
+    func setConnectionState(for index: IndexPath, with state: ConnectingState) {
+        self.dataModel.setConnectionState(for: index, with: state)
+        self.givenDataForConnectionStates[index.row] = state
     }
 }
 
@@ -22,6 +29,11 @@ final class ViewModelForPlayersTableView {
     private var dataModel: DataSourceForPlayersTableView = DataSourceForPlayersTableView()
     private(set) var multipeerConnectivityForPlayers: MultiplayerConectionAsMPCHandler! = nil
     private(set) var givenDataForPlayerNames: [String] = [String]() {
+        didSet {
+            functionalityWhenDataRecieved()
+        }
+    }
+    private(set) var givenDataForConnectionStates: [ConnectingState] = [ConnectingState]() {
         didSet {
             functionalityWhenDataRecieved()
         }
@@ -39,14 +51,8 @@ final class ViewModelForPlayersTableView {
     func getDataFromDataModel() {
         self.givenDataForPlayerIcons = self.dataModel.provideDataForIcons()
         self.givenDataForPlayerNames = self.dataModel.provideDataForNames()
+        self.givenDataForConnectionStates = self.dataModel.setUpWithConnectionStates()
     }
-    
-//    func configuireDataModel() {
-//        self.dataModel.functionalityWhenDataRecieved = {
-//            self.givenDataForPlayerIcons = self.dataModel.provideDataForIcons()
-//            self.givenDataForPlayerNames = self.dataModel.provideDataForNames()
-//        }
-//    }
     
     func providePeerId(at index: IndexPath) -> MCPeerID {
         return self.dataModel.providePeerId(at: index)
@@ -55,4 +61,5 @@ final class ViewModelForPlayersTableView {
     func setConnectivityHandler(with handler: MultiplayerConectionAsMPCHandler) {
         self.multipeerConnectivityForPlayers = handler
     }
+
 }

@@ -9,6 +9,7 @@ import MultipeerConnectivity
 
 protocol PeerIDReciever: AnyObject {
     func getPeerId(peerId: MCPeerID, with type: DataType)
+    func setConnectionState(for index: IndexPath, with state: ConnectingState)
 }
 
 
@@ -24,6 +25,7 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
     private(set) var browserForConnect: MCNearbyServiceBrowser!
     private(set) var group = DispatchGroup()
     private var canConnect: Bool?
+    private var inviterIndexPath: IndexPath! = nil
     weak var delegate:PeerIDReciever?
 
     init(displayName: String) {
@@ -63,18 +65,20 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
         self.canConnect = barier
     }
     
+    func setInviterIndex(with indexPath: IndexPath) {
+        self.inviterIndexPath = indexPath
+    }
+    
 }
 
 extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         if state == .connected {
+            self.delegate?.setConnectionState(for: self.inviterIndexPath, with: .connected)
             functionalityWhenConnectionEstablished()
         }
         if state == .notConnected {
-            print("AAA")
-        }
-        if state == .connecting {
-            print("AAAAAA")
+            self.delegate?.setConnectionState(for: self.inviterIndexPath, with: .notNonnected)
         }
     }
     
@@ -100,7 +104,8 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
 
 extension MultiplayerConectionAsMPCHandler: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        functionlaityWhenConnectionInviteProvided()
+//        let timer
+        self.functionlaityWhenConnectionInviteProvided()
         self.group.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
             invitationHandler(self.canConnect!,self.multiplayerSession)
         }
