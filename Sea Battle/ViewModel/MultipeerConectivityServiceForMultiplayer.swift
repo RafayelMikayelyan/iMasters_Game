@@ -81,8 +81,7 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         let dataDebugDescription = String(data: data, encoding: .utf8)
         print(dataDebugDescription)
-        if let indexPath = dataDebugDescription as? IndexPath {
-            print(indexPath)
+   
         }
     }
     
