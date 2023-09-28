@@ -84,6 +84,7 @@ final class ShipMapConfigurationViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.view.backgroundColor = .white
+        self.navigationBarDisablier()
         
         configuiringWithSectionLayout()
         
@@ -118,6 +119,11 @@ final class ShipMapConfigurationViewController: UIViewController {
             shipsMapCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
         configuireWithViewModel()
+    }
+    
+    private func navigationBarDisablier() {
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     private func configuireWithViewModel() {

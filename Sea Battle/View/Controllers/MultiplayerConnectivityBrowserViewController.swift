@@ -37,6 +37,7 @@ final class MultiplayerConnectivityBrowserViewController: UIViewController {
         
         self.playersTableView.register(CellForPlayersTableView.self, forCellReuseIdentifier: "cell")
         self.playersTableView.register(PlayersTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: "header")
+        self.playersTableView.register(PlayersTableViewFooterView.self, forHeaderFooterViewReuseIdentifier: "footer")
         
         NSLayoutConstraint.activate([
             self.backgroundImage.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -85,12 +86,21 @@ extension MultiplayerConnectivityBrowserViewController: UITableViewDataSource {
         return 120
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = self.playersTableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! PlayersTableViewHeaderView
         header.configure()
         return header
     }
     
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footer = self.playersTableView.dequeueReusableHeaderFooterView(withIdentifier: "footer") as! PlayersTableViewFooterView
+        footer.configuire(with: "Searching players...")
+        return footer
+    }
 }
 
 extension MultiplayerConnectivityBrowserViewController:UITableViewDelegate {

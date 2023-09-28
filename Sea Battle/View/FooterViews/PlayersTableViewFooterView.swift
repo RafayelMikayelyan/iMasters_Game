@@ -17,7 +17,7 @@ final class PlayersTableViewFooterView: UITableViewHeaderFooterView {
     
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.style = .medium
+        activityIndicator.style = .large
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
@@ -32,13 +32,13 @@ final class PlayersTableViewFooterView: UITableViewHeaderFooterView {
         self.addSubview(searchLabel)
         
         searchLabel.text = message
+        self.activityIndicator.startAnimating()
         
         NSLayoutConstraint.activate([
             self.searchLabel.leftAnchor.constraint(equalTo: self.leftAnchor,constant: 10),
             self.searchLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             self.activityIndicator.leftAnchor.constraint(equalTo: self.searchLabel.rightAnchor,constant: 5),
             self.activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-            
         ])
     }
 }
