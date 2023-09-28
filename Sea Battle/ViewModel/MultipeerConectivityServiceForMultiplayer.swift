@@ -10,7 +10,7 @@ import MultipeerConnectivity
 protocol PeerIDReciever: AnyObject {
     func getPeerId(peerId: MCPeerID, with type: DataType)
 }
-//asd
+
 
 final class MultiplayerConectionAsMPCHandler: NSObject {   
     
