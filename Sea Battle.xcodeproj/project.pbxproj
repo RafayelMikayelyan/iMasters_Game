@@ -1,0 +1,526 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		570863D12AB9C4A800CB8CAA /* ShipsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D02AB9C4A800CB8CAA /* ShipsCell.swift */; };
+		570863D42AB9C6CA00CB8CAA /* MapShipsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */; };
+		570863D92AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */; };
+		570863DB2AB9F74200CB8CAA /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863DA2AB9F74200CB8CAA /* PlayerCell.swift */; };
+		5734305C2AC22B5300353C3C /* BattleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5734305B2AC22B5300353C3C /* BattleViewController.swift */; };
+		5734305E2AC237CC00353C3C /* ErrorMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5734305D2AC237CC00353C3C /* ErrorMessageView.swift */; };
+		574813522AB9C30500CE9EE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574813512AB9C30500CE9EE2 /* AppDelegate.swift */; };
+		574813542AB9C30500CE9EE2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574813532AB9C30500CE9EE2 /* SceneDelegate.swift */; };
+		574813562AB9C30500CE9EE2 /* ShipMapConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574813552AB9C30500CE9EE2 /* ShipMapConfigurationViewController.swift */; };
+		574813592AB9C30500CE9EE2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 574813572AB9C30500CE9EE2 /* Main.storyboard */; };
+		5748135B2AB9C30600CE9EE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5748135A2AB9C30600CE9EE2 /* Assets.xcassets */; };
+		5748135E2AB9C30600CE9EE2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5748135C2AB9C30600CE9EE2 /* LaunchScreen.storyboard */; };
+		574813692AB9C37800CE9EE2 /* CellForMapAndShips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574813682AB9C37800CE9EE2 /* CellForMapAndShips.swift */; };
+		5748136E2AB9C3B000CE9EE2 /* MapPlayerSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748136D2AB9C3B000CE9EE2 /* MapPlayerSectionHeaderView.swift */; };
+		574813712AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574813702AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift */; };
+		575B5EBB2AC4D9C200065601 /* DataSourceForPlayersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B5EBA2AC4D9C200065601 /* DataSourceForPlayersTableView.swift */; };
+		575B5EBF2AC4DAA900065601 /* CellForPlayersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B5EBE2AC4DAA900065601 /* CellForPlayersTableView.swift */; };
+		575B5EC12AC4E06100065601 /* ViewModelForPlayersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B5EC02AC4E06100065601 /* ViewModelForPlayersTableView.swift */; };
+		575B5EC32AC4F7E700065601 /* PlayersTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B5EC22AC4F7E700065601 /* PlayersTableViewHeaderView.swift */; };
+		575D92A72AC4712600001951 /* InviteBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575D92A62AC4712600001951 /* InviteBannerView.swift */; };
+		57611F012AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57611F002AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift */; };
+		57BBD70B2ABC81510065664B /* ShipsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BBD70A2ABC81510065664B /* ShipsSectionHeader.swift */; };
+		57BBD72D2ABCBAD20065664B /* ViewModelForMapAndShips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BBD72C2ABCBAD20065664B /* ViewModelForMapAndShips.swift */; };
+		57BBD72F2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BBD72E2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift */; };
+		57C84B4E2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C84B4D2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift */; };
+		57CEF4B42AC2F92A006BB3CD /* ViewModelForBattleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEF4B32AC2F92A006BB3CD /* ViewModelForBattleViewController.swift */; };
+		57CEF4B62AC2F956006BB3CD /* DataSourceForBattleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEF4B52AC2F956006BB3CD /* DataSourceForBattleViewController.swift */; };
+		57CEF4B82AC312FF006BB3CD /* PlayerCellForBattleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CEF4B72AC312FF006BB3CD /* PlayerCellForBattleViewController.swift */; };
+		57EF4FD52ABDE2AA0042DACD /* MapColumnOrRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EF4FD42ABDE2AA0042DACD /* MapColumnOrRowCell.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		570863D02AB9C4A800CB8CAA /* ShipsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipsCell.swift; sourceTree = "<group>"; };
+		570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapShipsFooterView.swift; sourceTree = "<group>"; };
+		570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModelCollectionView.swift; sourceTree = "<group>"; };
+		570863DA2AB9F74200CB8CAA /* PlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
+		5734305B2AC22B5300353C3C /* BattleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleViewController.swift; sourceTree = "<group>"; };
+		5734305D2AC237CC00353C3C /* ErrorMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageView.swift; sourceTree = "<group>"; };
+		5748134E2AB9C30500CE9EE2 /* Sea Battle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sea Battle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		574813512AB9C30500CE9EE2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		574813532AB9C30500CE9EE2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		574813552AB9C30500CE9EE2 /* ShipMapConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipMapConfigurationViewController.swift; sourceTree = "<group>"; };
+		574813582AB9C30500CE9EE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5748135A2AB9C30600CE9EE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5748135D2AB9C30600CE9EE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5748135F2AB9C30600CE9EE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		574813682AB9C37800CE9EE2 /* CellForMapAndShips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForMapAndShips.swift; sourceTree = "<group>"; };
+		5748136D2AB9C3B000CE9EE2 /* MapPlayerSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPlayerSectionHeaderView.swift; sourceTree = "<group>"; };
+		574813702AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationViewForMapAndShips.swift; sourceTree = "<group>"; };
+		575B5EBA2AC4D9C200065601 /* DataSourceForPlayersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceForPlayersTableView.swift; sourceTree = "<group>"; };
+		575B5EBE2AC4DAA900065601 /* CellForPlayersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForPlayersTableView.swift; sourceTree = "<group>"; };
+		575B5EC02AC4E06100065601 /* ViewModelForPlayersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelForPlayersTableView.swift; sourceTree = "<group>"; };
+		575B5EC22AC4F7E700065601 /* PlayersTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersTableViewHeaderView.swift; sourceTree = "<group>"; };
+		575D92A62AC4712600001951 /* InviteBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteBannerView.swift; sourceTree = "<group>"; };
+		57611F002AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplayerConnectivityBrowserViewController.swift; sourceTree = "<group>"; };
+		57BBD70A2ABC81510065664B /* ShipsSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipsSectionHeader.swift; sourceTree = "<group>"; };
+		57BBD72C2ABCBAD20065664B /* ViewModelForMapAndShips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelForMapAndShips.swift; sourceTree = "<group>"; };
+		57BBD72E2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewWithShipIdetifier.swift; sourceTree = "<group>"; };
+		57C84B4D2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerConectivityServiceForMultiplayer.swift; sourceTree = "<group>"; };
+		57CEF4B32AC2F92A006BB3CD /* ViewModelForBattleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelForBattleViewController.swift; sourceTree = "<group>"; };
+		57CEF4B52AC2F956006BB3CD /* DataSourceForBattleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceForBattleViewController.swift; sourceTree = "<group>"; };
+		57CEF4B72AC312FF006BB3CD /* PlayerCellForBattleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCellForBattleViewController.swift; sourceTree = "<group>"; };
+		57EF4FD42ABDE2AA0042DACD /* MapColumnOrRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapColumnOrRowCell.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5748134B2AB9C30500CE9EE2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		570863D22AB9C6BA00CB8CAA /* FooterViews */ = {
+			isa = PBXGroup;
+			children = (
+				570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */,
+			);
+			path = FooterViews;
+			sourceTree = "<group>";
+		};
+		570863D72AB9E8D600CB8CAA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */,
+				57CEF4B52AC2F956006BB3CD /* DataSourceForBattleViewController.swift */,
+				575B5EBA2AC4D9C200065601 /* DataSourceForPlayersTableView.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		574813452AB9C30500CE9EE2 = {
+			isa = PBXGroup;
+			children = (
+				574813502AB9C30500CE9EE2 /* Sea Battle */,
+				5748134F2AB9C30500CE9EE2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5748134F2AB9C30500CE9EE2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5748134E2AB9C30500CE9EE2 /* Sea Battle.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		574813502AB9C30500CE9EE2 /* Sea Battle */ = {
+			isa = PBXGroup;
+			children = (
+				574813512AB9C30500CE9EE2 /* AppDelegate.swift */,
+				574813532AB9C30500CE9EE2 /* SceneDelegate.swift */,
+				570863D72AB9E8D600CB8CAA /* Model */,
+				574813652AB9C30C00CE9EE2 /* View */,
+				57BBD7042ABC6CC70065664B /* ViewModel */,
+				574813572AB9C30500CE9EE2 /* Main.storyboard */,
+				5748135A2AB9C30600CE9EE2 /* Assets.xcassets */,
+				5748135C2AB9C30600CE9EE2 /* LaunchScreen.storyboard */,
+				5748135F2AB9C30600CE9EE2 /* Info.plist */,
+			);
+			path = "Sea Battle";
+			sourceTree = "<group>";
+		};
+		574813652AB9C30C00CE9EE2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				57BBD72E2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift */,
+				5734305D2AC237CC00353C3C /* ErrorMessageView.swift */,
+				575D92A62AC4712600001951 /* InviteBannerView.swift */,
+				570863D22AB9C6BA00CB8CAA /* FooterViews */,
+				5748136F2AB9C3CB00CE9EE2 /* DecorationViews */,
+				5748136C2AB9C3A300CE9EE2 /* HeaderViews */,
+				5748136B2AB9C39C00CE9EE2 /* Controllers */,
+				5748136A2AB9C39500CE9EE2 /* Cells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5748136A2AB9C39500CE9EE2 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				574813682AB9C37800CE9EE2 /* CellForMapAndShips.swift */,
+				570863D02AB9C4A800CB8CAA /* ShipsCell.swift */,
+				570863DA2AB9F74200CB8CAA /* PlayerCell.swift */,
+				57EF4FD42ABDE2AA0042DACD /* MapColumnOrRowCell.swift */,
+				57CEF4B72AC312FF006BB3CD /* PlayerCellForBattleViewController.swift */,
+				575B5EBE2AC4DAA900065601 /* CellForPlayersTableView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		5748136B2AB9C39C00CE9EE2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				574813552AB9C30500CE9EE2 /* ShipMapConfigurationViewController.swift */,
+				5734305B2AC22B5300353C3C /* BattleViewController.swift */,
+				57611F002AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		5748136C2AB9C3A300CE9EE2 /* HeaderViews */ = {
+			isa = PBXGroup;
+			children = (
+				5748136D2AB9C3B000CE9EE2 /* MapPlayerSectionHeaderView.swift */,
+				57BBD70A2ABC81510065664B /* ShipsSectionHeader.swift */,
+				575B5EC22AC4F7E700065601 /* PlayersTableViewHeaderView.swift */,
+			);
+			path = HeaderViews;
+			sourceTree = "<group>";
+		};
+		5748136F2AB9C3CB00CE9EE2 /* DecorationViews */ = {
+			isa = PBXGroup;
+			children = (
+				574813702AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift */,
+			);
+			path = DecorationViews;
+			sourceTree = "<group>";
+		};
+		57BBD7042ABC6CC70065664B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				57BBD72C2ABCBAD20065664B /* ViewModelForMapAndShips.swift */,
+				57CEF4B32AC2F92A006BB3CD /* ViewModelForBattleViewController.swift */,
+				575B5EC02AC4E06100065601 /* ViewModelForPlayersTableView.swift */,
+				57C84B4D2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5748134D2AB9C30500CE9EE2 /* Sea Battle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 574813622AB9C30600CE9EE2 /* Build configuration list for PBXNativeTarget "Sea Battle" */;
+			buildPhases = (
+				5748134A2AB9C30500CE9EE2 /* Sources */,
+				5748134B2AB9C30500CE9EE2 /* Frameworks */,
+				5748134C2AB9C30500CE9EE2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Sea Battle";
+			productName = "Sea Battle";
+			productReference = 5748134E2AB9C30500CE9EE2 /* Sea Battle.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		574813462AB9C30500CE9EE2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					5748134D2AB9C30500CE9EE2 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 574813492AB9C30500CE9EE2 /* Build configuration list for PBXProject "Sea Battle" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 574813452AB9C30500CE9EE2;
+			productRefGroup = 5748134F2AB9C30500CE9EE2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5748134D2AB9C30500CE9EE2 /* Sea Battle */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5748134C2AB9C30500CE9EE2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5748135E2AB9C30600CE9EE2 /* LaunchScreen.storyboard in Resources */,
+				5748135B2AB9C30600CE9EE2 /* Assets.xcassets in Resources */,
+				574813592AB9C30500CE9EE2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5748134A2AB9C30500CE9EE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5748136E2AB9C3B000CE9EE2 /* MapPlayerSectionHeaderView.swift in Sources */,
+				575D92A72AC4712600001951 /* InviteBannerView.swift in Sources */,
+				57CEF4B62AC2F956006BB3CD /* DataSourceForBattleViewController.swift in Sources */,
+				575B5EC12AC4E06100065601 /* ViewModelForPlayersTableView.swift in Sources */,
+				57BBD70B2ABC81510065664B /* ShipsSectionHeader.swift in Sources */,
+				57BBD72F2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift in Sources */,
+				574813712AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift in Sources */,
+				57EF4FD52ABDE2AA0042DACD /* MapColumnOrRowCell.swift in Sources */,
+				570863D42AB9C6CA00CB8CAA /* MapShipsFooterView.swift in Sources */,
+				57CEF4B82AC312FF006BB3CD /* PlayerCellForBattleViewController.swift in Sources */,
+				574813562AB9C30500CE9EE2 /* ShipMapConfigurationViewController.swift in Sources */,
+				570863DB2AB9F74200CB8CAA /* PlayerCell.swift in Sources */,
+				570863D92AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift in Sources */,
+				5734305C2AC22B5300353C3C /* BattleViewController.swift in Sources */,
+				575B5EBB2AC4D9C200065601 /* DataSourceForPlayersTableView.swift in Sources */,
+				57611F012AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift in Sources */,
+				57CEF4B42AC2F92A006BB3CD /* ViewModelForBattleViewController.swift in Sources */,
+				574813692AB9C37800CE9EE2 /* CellForMapAndShips.swift in Sources */,
+				575B5EBF2AC4DAA900065601 /* CellForPlayersTableView.swift in Sources */,
+				57C84B4E2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift in Sources */,
+				5734305E2AC237CC00353C3C /* ErrorMessageView.swift in Sources */,
+				574813522AB9C30500CE9EE2 /* AppDelegate.swift in Sources */,
+				570863D12AB9C4A800CB8CAA /* ShipsCell.swift in Sources */,
+				575B5EC32AC4F7E700065601 /* PlayersTableViewHeaderView.swift in Sources */,
+				574813542AB9C30500CE9EE2 /* SceneDelegate.swift in Sources */,
+				57BBD72D2ABCBAD20065664B /* ViewModelForMapAndShips.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		574813572AB9C30500CE9EE2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				574813582AB9C30500CE9EE2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5748135C2AB9C30600CE9EE2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5748135D2AB9C30600CE9EE2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		574813602AB9C30600CE9EE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		574813612AB9C30600CE9EE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		574813632AB9C30600CE9EE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2U88LND2HV;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Sea Battle/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "AshotHovhannisyan.Sea-Battle";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		574813642AB9C30600CE9EE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2U88LND2HV;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Sea Battle/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "AshotHovhannisyan.Sea-Battle";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		574813492AB9C30500CE9EE2 /* Build configuration list for PBXProject "Sea Battle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				574813602AB9C30600CE9EE2 /* Debug */,
+				574813612AB9C30600CE9EE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		574813622AB9C30600CE9EE2 /* Build configuration list for PBXNativeTarget "Sea Battle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				574813632AB9C30600CE9EE2 /* Debug */,
+				574813642AB9C30600CE9EE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 574813462AB9C30500CE9EE2 /* Project object */;
+}
