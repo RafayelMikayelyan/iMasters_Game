@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4EAFE0392AC5E8B500945B14 /* ChessBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAFE0382AC5E8B500945B14 /* ChessBoardViewController.swift */; };
 		570863D12AB9C4A800CB8CAA /* ShipsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D02AB9C4A800CB8CAA /* ShipsCell.swift */; };
 		570863D42AB9C6CA00CB8CAA /* MapShipsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */; };
 		570863D92AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4EAFE0382AC5E8B500945B14 /* ChessBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoardViewController.swift; sourceTree = "<group>"; };
 		570863D02AB9C4A800CB8CAA /* ShipsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipsCell.swift; sourceTree = "<group>"; };
 		570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapShipsFooterView.swift; sourceTree = "<group>"; };
 		570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModelCollectionView.swift; sourceTree = "<group>"; };
@@ -87,6 +89,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4EAFE0342AC5E82C00945B14 /* Chess */ = {
+			isa = PBXGroup;
+			children = (
+				4EAFE0362AC5E85400945B14 /* Model */,
+				4EAFE0352AC5E84800945B14 /* View */,
+				4EAFE0372AC5E86100945B14 /* ViewModel */,
+			);
+			path = Chess;
+			sourceTree = "<group>";
+		};
+		4EAFE0352AC5E84800945B14 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4EAFE0382AC5E8B500945B14 /* ChessBoardViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4EAFE0362AC5E85400945B14 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4EAFE0372AC5E86100945B14 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		570863D22AB9C6BA00CB8CAA /* FooterViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +143,7 @@
 		574813452AB9C30500CE9EE2 = {
 			isa = PBXGroup;
 			children = (
+				4EAFE0342AC5E82C00945B14 /* Chess */,
 				574813502AB9C30500CE9EE2 /* Sea Battle */,
 				5748134F2AB9C30500CE9EE2 /* Products */,
 			);
@@ -292,6 +327,7 @@
 				570863DB2AB9F74200CB8CAA /* PlayerCell.swift in Sources */,
 				570863D92AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift in Sources */,
 				5734305C2AC22B5300353C3C /* BattleViewController.swift in Sources */,
+				4EAFE0392AC5E8B500945B14 /* ChessBoardViewController.swift in Sources */,
 				575B5EBB2AC4D9C200065601 /* DataSourceForPlayersTableView.swift in Sources */,
 				57611F012AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift in Sources */,
 				57CEF4B42AC2F92A006BB3CD /* ViewModelForBattleViewController.swift in Sources */,

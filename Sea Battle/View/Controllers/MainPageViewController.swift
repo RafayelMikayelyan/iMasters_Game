@@ -19,7 +19,7 @@ final class MainPageViewController: UIViewController {
     
     private let chessButton:UIButton = {
         let button = UIButton()
-        button.setTitle("Sea Battle", for: .normal)
+        button.setTitle("Chess", for: .normal)
         button.titleLabel?.textColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -39,9 +39,15 @@ final class MainPageViewController: UIViewController {
         ])
         
         self.seaBattleButton.addTarget(self, action: #selector(selectorSea), for: .touchUpInside)
+        self.chessButton.addTarget(self, action: #selector(chess), for: .touchUpInside)
     }
     
     @objc func selectorSea() {
         self.show(ShipMapConfigurationViewController(), sender: nil)
     }
+    
+    @objc func chess() {
+        self.show(ChessBoardViewController(), sender: nil)
+    }
+
 }
