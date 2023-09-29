@@ -7,9 +7,6 @@
 
 import Foundation
 
-
-
-
 enum HighlightColor {
     case red
     case green
