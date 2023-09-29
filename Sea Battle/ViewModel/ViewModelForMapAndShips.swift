@@ -13,6 +13,16 @@ enum ButtonType {
     case join
 }
 
+extension ViewModelForMapAndShips: TimerResponder {
+    func timerResponderSelector(_ sender: Timer) {
+        if self.multipeerConectivityHandler.provideCannectionBarier() == nil {
+            self.multipeerConectivityHandler.setConnectionBarier(with: false)
+            self.multipeerConectivityHandler.group.leave()
+            self.functionalityWhenInviteBannerResponse()
+        }
+    }
+}
+
 extension ViewModelForMapAndShips: InviteBannerViewTarget {
     @objc func inviteBannerTarhetForGet(_ sender: UIButton) {
         self.multipeerConectivityHandler.setConnectionBarier(with: true)
@@ -129,6 +139,10 @@ final class ViewModelForMapAndShips {
     
     func provideIndexPathsForHighlighting(indexPath: IndexPath,shipIndentificator:ShipsIdentifier) {
         self.setOfIndexPathsForHighlighting = self.mapDataModel.provideIndexPathsForHighlighting(indexPath: indexPath, shipIndentificator: shipIndentificator)
+    }
+    
+    func setTimertarget() {
+        self.multipeerConectivityHandler.timerTarget = self
     }
     
     func resetSetOfindexPaths() {

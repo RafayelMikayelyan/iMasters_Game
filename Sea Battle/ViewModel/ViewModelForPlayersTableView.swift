@@ -19,12 +19,22 @@ extension ViewModelForPlayersTableView: PeerIDRecieverDelegate {
     func setConnectionState(_ sender: MultiplayerConectionAsMPCHandler,for index: IndexPath, with state: ConnectingState) {
         self.dataModel.setConnectionState(for: index, with: state)
         self.givenDataForConnectionStates[index.row] = state
+        switch state {
+        case .networkMissing:
+            self.functionalityWhenConnectionFailed()
+        case .canceled:
+            self.functionalityWhenConnectionFailed()
+
+        default:
+            break
+        }
     }
 }
 
 final class ViewModelForPlayersTableView {
     
     var functionalityWhenDataRecieved: () -> Void = {}
+    var functionalityWhenConnectionFailed: () -> Void = {}
     
     private var dataModel: DataSourceForPlayersTableView = DataSourceForPlayersTableView()
     private(set) var multipeerConnectivityForPlayers: MultiplayerConectionAsMPCHandler! = nil

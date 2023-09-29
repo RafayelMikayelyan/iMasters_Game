@@ -142,6 +142,7 @@ final class ShipMapConfigurationViewController: UIViewController {
         self.viewModel.getShipsDataModel()
         self.viewModel.getMapDataModel()
         self.viewModel.setMultipeerConectivityHandler(with :"Ashot,BannerBackground")
+        self.viewModel.setTimertarget()
         self.viewModel.setFunctionalityWhenConnectionEstablished {
             DispatchQueue.main.async(qos:.userInteractive) {
                 self.dismiss(animated: true) {

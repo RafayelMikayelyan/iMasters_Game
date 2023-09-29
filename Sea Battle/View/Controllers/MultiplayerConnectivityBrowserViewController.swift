@@ -8,7 +8,7 @@
 import UIKit
 
 final class MultiplayerConnectivityBrowserViewController: UIViewController {
-    
+        
      private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -61,6 +61,11 @@ final class MultiplayerConnectivityBrowserViewController: UIViewController {
         self.viewModel.functionalityWhenDataRecieved = {
             DispatchQueue.main.async(qos: .userInteractive) {
                 self.playersTableView.reloadData()
+            }
+        }
+        self.viewModel.functionalityWhenConnectionFailed = {
+            DispatchQueue.main.async(qos: .userInteractive) {
+                self.playersTableView.isUserInteractionEnabled = true
             }
         }
         self.viewModel.setDelegateForConnectivity()
@@ -123,6 +128,7 @@ extension MultiplayerConnectivityBrowserViewController: UITableViewDataSource {
 
 extension MultiplayerConnectivityBrowserViewController:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.playersTableView.isUserInteractionEnabled = false
         self.playersTableView.deselectRow(at: indexPath, animated: true)
         self.viewModel.multipeerConnectivityForPlayers.setInviterIndex(with: indexPath)
         self.viewModel.multipeerConnectivityForPlayers.browserForConnect.invitePeer(self.viewModel.providePeerId(at: indexPath), to: self.viewModel.multipeerConnectivityForPlayers.multiplayerSession, withContext: "\(indexPath.row),\(indexPath.section)".data(using: .utf8), timeout: 30)

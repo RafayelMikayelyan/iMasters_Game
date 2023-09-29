@@ -12,6 +12,10 @@ protocol PeerIDRecieverDelegate: AnyObject {
     func setConnectionState(_ sender: MultiplayerConectionAsMPCHandler,for index: IndexPath, with state: ConnectingState)
 }
 
+@objc protocol TimerResponder {
+    @objc func timerResponderSelector(_ sender: Timer)
+}
+
 extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDelegate {
     func provideStatus(_sender: NetworkConnectionCheckerManager, status: ConnectionStatus) {
         self.givenNetworkConnectionStatus = status
@@ -41,6 +45,7 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
     private var givenNetworkConnectionStatus: ConnectionStatus = .notConnected
     private var inviterIndexPath: IndexPath! = nil
     weak var delegate:PeerIDRecieverDelegate?
+    weak var timerTarget: TimerResponder?
 
     init(displayName: String) {
         self.playerPeerId = MCPeerID(displayName: displayName)
@@ -83,6 +88,10 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
         self.inviterIndexPath = indexPath
     }
     
+    func provideCannectionBarier() -> Bool? {
+        return self.canConnect
+    }
+    
 }
 
 extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
@@ -120,7 +129,9 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
 
 extension MultiplayerConectionAsMPCHandler: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-//        let timer
+        if let target = self.timerTarget {
+            _ = Timer.scheduledTimer(timeInterval: 30, target: target, selector:#selector(self.timerTarget?.timerResponderSelector) , userInfo: nil, repeats: false)
+        }
         self.functionlaityWhenConnectionInviteProvided()
         self.group.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
             invitationHandler(self.canConnect!,self.multiplayerSession)
