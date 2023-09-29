@@ -31,6 +31,7 @@
 		575B5EC32AC4F7E700065601 /* PlayersTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B5EC22AC4F7E700065601 /* PlayersTableViewHeaderView.swift */; };
 		575D92A72AC4712600001951 /* InviteBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575D92A62AC4712600001951 /* InviteBannerView.swift */; };
 		57611F012AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57611F002AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift */; };
+		579FA4EF2AC727A20004D10A /* NetworkConnectionCheckerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579FA4EE2AC727A20004D10A /* NetworkConnectionCheckerManager.swift */; };
 		57BBD70B2ABC81510065664B /* ShipsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BBD70A2ABC81510065664B /* ShipsSectionHeader.swift */; };
 		57BBD72D2ABCBAD20065664B /* ViewModelForMapAndShips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BBD72C2ABCBAD20065664B /* ViewModelForMapAndShips.swift */; };
 		57BBD72F2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BBD72E2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift */; };
@@ -68,6 +69,7 @@
 		575B5EC22AC4F7E700065601 /* PlayersTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersTableViewHeaderView.swift; sourceTree = "<group>"; };
 		575D92A62AC4712600001951 /* InviteBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteBannerView.swift; sourceTree = "<group>"; };
 		57611F002AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplayerConnectivityBrowserViewController.swift; sourceTree = "<group>"; };
+		579FA4EE2AC727A20004D10A /* NetworkConnectionCheckerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionCheckerManager.swift; sourceTree = "<group>"; };
 		57BBD70A2ABC81510065664B /* ShipsSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipsSectionHeader.swift; sourceTree = "<group>"; };
 		57BBD72C2ABCBAD20065664B /* ViewModelForMapAndShips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelForMapAndShips.swift; sourceTree = "<group>"; };
 		57BBD72E2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewWithShipIdetifier.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				57CEF4B32AC2F92A006BB3CD /* ViewModelForBattleViewController.swift */,
 				575B5EC02AC4E06100065601 /* ViewModelForPlayersTableView.swift */,
 				57C84B4D2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift */,
+				579FA4EE2AC727A20004D10A /* NetworkConnectionCheckerManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				570863D92AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift in Sources */,
 				5734305C2AC22B5300353C3C /* BattleViewController.swift in Sources */,
 				4EAFE0392AC5E8B500945B14 /* ChessBoardViewController.swift in Sources */,
+				579FA4EF2AC727A20004D10A /* NetworkConnectionCheckerManager.swift in Sources */,
 				575B5EBB2AC4D9C200065601 /* DataSourceForPlayersTableView.swift in Sources */,
 				57611F012AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift in Sources */,
 				57CEF4B42AC2F92A006BB3CD /* ViewModelForBattleViewController.swift in Sources */,
@@ -500,7 +504,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -529,7 +533,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

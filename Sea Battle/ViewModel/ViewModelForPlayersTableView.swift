@@ -8,15 +8,15 @@
 import Foundation
 import MultipeerConnectivity
 
-extension ViewModelForPlayersTableView: PeerIDReciever {
+extension ViewModelForPlayersTableView: PeerIDRecieverDelegate {
    
     
-    func getPeerId(peerId: MCPeerID, with type: DataType) {
+    func getPeerId(_ sender: MultiplayerConectionAsMPCHandler,peerId: MCPeerID, with type: DataType) {
         self.dataModel.handleIncomingData(data: peerId, with: type)
         self.getDataFromDataModel()
     }
     
-    func setConnectionState(for index: IndexPath, with state: ConnectingState) {
+    func setConnectionState(_ sender: MultiplayerConectionAsMPCHandler,for index: IndexPath, with state: ConnectingState) {
         self.dataModel.setConnectionState(for: index, with: state)
         self.givenDataForConnectionStates[index.row] = state
     }

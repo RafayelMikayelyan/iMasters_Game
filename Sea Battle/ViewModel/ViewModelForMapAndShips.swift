@@ -8,6 +8,11 @@
 import Foundation
 import MultipeerConnectivity
 
+enum ButtonType {
+    case start
+    case join
+}
+
 extension ViewModelForMapAndShips: InviteBannerViewTarget {
     @objc func inviteBannerTarhetForGet(_ sender: UIButton) {
         self.multipeerConectivityHandler.setConnectionBarier(with: true)
@@ -22,13 +27,27 @@ extension ViewModelForMapAndShips: InviteBannerViewTarget {
     }
 }
 
+extension ViewModelForMapAndShips: NetworkConnectionCheckerManagerDelegate {
+    func provideStatus(_sender: NetworkConnectionCheckerManager, status: ConnectionStatus) {
+        self.givenConnectionStatus = status
+        if self.buttontype == .start {
+            self.functionalityForStartButton()
+        } else {
+            self.functionalityForJoinButton()
+        }
+    }
+}
+
 final class ViewModelForMapAndShips {
     
     private var multipeerConectivityHandler: MultiplayerConectionAsMPCHandler! = nil
     private var shipsDataModel: DataModelForShipsSection = DataModelForShipsSection()
     private var mapDataModel: MapDataModel = MapDataModel()
+    private var networkConnectionMonitor = NetworkConnectionCheckerManager()
     private(set) var setOfIndexPathsForHighlighting: Set<IndexPath> = Set<IndexPath>()
+    private(set) var givenConnectionStatus: ConnectionStatus = .notConnected
     private var shipIndexPath:IndexPath! = nil
+    private var buttontype: ButtonType! = nil
     private var addedShipsCount: Int = 0 {
         didSet {
             if addedShipsCount == 10 {
@@ -56,9 +75,17 @@ final class ViewModelForMapAndShips {
     var functionalityWhenShipsCountAdded: () -> Void = {}
     var functionalityWhenMapSectionDataProvided: () -> Void = {}
     var functionalityWhenInviteBannerResponse: () -> Void = {}
+    var functionalityForStartButton: () -> Void = {}
+    var functionalityForJoinButton: () -> Void = {}
     
     func getShipsDataModel() {
         self.givenDataOfShips = self.shipsDataModel.provideDataForShipsSectionRotatedLeft()
+    }
+    
+    func setDelegateToNetworkManager() {
+        self.networkConnectionMonitor = NetworkConnectionCheckerManager()
+        self.networkConnectionMonitor.delegate = self
+        self.networkConnectionMonitor.provideConnectionStatus()
     }
     
     func getShipsDataModelRotated() {
@@ -831,5 +858,9 @@ final class ViewModelForMapAndShips {
     
     func leaveInovationToMultipeerConnectivity() {
         self.multipeerConectivityHandler.group.leave()
+    }
+    
+    func setButtonType(with type: ButtonType) {
+        self.buttontype = type
     }
 }

@@ -7,13 +7,25 @@
 
 import MultipeerConnectivity
 
-protocol PeerIDReciever: AnyObject {
-    func getPeerId(peerId: MCPeerID, with type: DataType)
-    func setConnectionState(for index: IndexPath, with state: ConnectingState)
+protocol PeerIDRecieverDelegate: AnyObject {
+    func getPeerId(_ sender: MultiplayerConectionAsMPCHandler,peerId: MCPeerID, with type: DataType)
+    func setConnectionState(_ sender: MultiplayerConectionAsMPCHandler,for index: IndexPath, with state: ConnectingState)
+}
+
+extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDelegate {
+    func provideStatus(_sender: NetworkConnectionCheckerManager, status: ConnectionStatus) {
+        self.givenNetworkConnectionStatus = status
+        if self.givenNetworkConnectionStatus == .connected {
+            self.delegate?.setConnectionState(self, for: self.inviterIndexPath, with: .canceled)
+        } else {
+            self.delegate?.setConnectionState(self, for: self.inviterIndexPath, with: .networkMissing)
+        }
+    }
+
 }
 
 
-final class MultiplayerConectionAsMPCHandler: NSObject {   
+final class MultiplayerConectionAsMPCHandler: NSObject {
     
     var functionlaityWhenConnectionInviteProvided: () -> Void = {}
     var functionalityWhenConnectionEstablished: () -> Void = {}
@@ -25,8 +37,10 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
     private(set) var browserForConnect: MCNearbyServiceBrowser!
     private(set) var group = DispatchGroup()
     private var canConnect: Bool?
+    private var networkMonitor: NetworkConnectionCheckerManager = NetworkConnectionCheckerManager()
+    private var givenNetworkConnectionStatus: ConnectionStatus = .notConnected
     private var inviterIndexPath: IndexPath! = nil
-    weak var delegate:PeerIDReciever?
+    weak var delegate:PeerIDRecieverDelegate?
 
     init(displayName: String) {
         self.playerPeerId = MCPeerID(displayName: displayName)
@@ -74,11 +88,13 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
 extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         if state == .connected {
-            self.delegate?.setConnectionState(for: self.inviterIndexPath, with: .connected)
+            self.delegate?.setConnectionState(self, for: self.inviterIndexPath, with: .connected)
             functionalityWhenConnectionEstablished()
         }
         if state == .notConnected {
-            self.delegate?.setConnectionState(for: self.inviterIndexPath, with: .notNonnected)
+            self.networkMonitor = NetworkConnectionCheckerManager()
+            self.networkMonitor.delegate = self
+            self.networkMonitor.provideConnectionStatus()
         }
     }
     
@@ -114,11 +130,11 @@ extension MultiplayerConectionAsMPCHandler: MCNearbyServiceAdvertiserDelegate {
 
 extension MultiplayerConectionAsMPCHandler: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-        self.delegate?.getPeerId(peerId: peerID, with: .get)
+        self.delegate?.getPeerId(self, peerId: peerID, with: .get)
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        self.delegate?.getPeerId(peerId: peerID, with: .lost)
+        self.delegate?.getPeerId(self, peerId: peerID, with: .lost)
     }
  
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {

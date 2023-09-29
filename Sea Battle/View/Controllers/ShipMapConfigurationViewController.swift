@@ -181,6 +181,46 @@ final class ShipMapConfigurationViewController: UIViewController {
                 self.inviteBanner.removeFromSuperview()
             }
         }
+        
+        self.viewModel.functionalityForStartButton = {
+            DispatchQueue.main.async(qos:.userInteractive) {
+                if self.viewModel.givenConnectionStatus == .connected {
+                    self.viewModel.startBrowsingOfMCBrowser()
+                    let vc = MultiplayerConnectivityBrowserViewController()
+                    vc.modalPresentationStyle = .pageSheet
+                    vc.setViewModelMultipeerConectivityHandler(with: self.viewModel.provideConnectivityHandler())
+                    self.present(vc, animated: true)
+                } else {
+                    let alertAboutConnection = UIAlertController(title: "Connection to WI-Fi missing", message: "Please check your connection to WI-Fi or Personal Hotspot to connect with other player.", preferredStyle: .alert)
+                    alertAboutConnection.addAction(UIAlertAction(title: "Ok", style: .cancel))
+                    alertAboutConnection.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
+                        guard let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) else {
+                            return
+                        }
+                        UIApplication.shared.open(url)
+                    }))
+                    self.present(alertAboutConnection,animated: true)
+                }
+            }
+        }
+        
+        self.viewModel.functionalityForJoinButton = {
+            DispatchQueue.main.async(qos: .userInteractive) {
+                if self.viewModel.givenConnectionStatus == .connected {
+                    self.viewModel.startMCAdvertiserAdvertising()
+                } else {
+                    let alertAboutConnection = UIAlertController(title: "Connection to WI-Fi missing", message: "Please check your connection to WI-Fi or Personal Hotspot to connect with other player.", preferredStyle: .alert)
+                    alertAboutConnection.addAction(UIAlertAction(title: "Ok", style: .cancel))
+                    alertAboutConnection.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
+                        guard let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) else {
+                            return
+                        }
+                        UIApplication.shared.open(url)
+                    }))
+                    self.present(alertAboutConnection,animated: true)
+                }
+            }
+        }
     }
     
     @objc private func longPressGestureSelectorForSectionTwo(_ sender: UILongPressGestureRecognizer) {
@@ -383,11 +423,8 @@ final class ShipMapConfigurationViewController: UIViewController {
     
     @objc func startBattleButtonTapSelector(_ sender: UIButton) {
         if self.viewModel.isFullMapSetted() {
-            self.viewModel.startBrowsingOfMCBrowser()
-            let vc = MultiplayerConnectivityBrowserViewController()
-            vc.modalPresentationStyle = .pageSheet
-            vc.setViewModelMultipeerConectivityHandler(with: self.viewModel.provideConnectivityHandler())
-            self.present(vc, animated: true)
+            self.viewModel.setButtonType(with: .start)
+            self.viewModel.setDelegateToNetworkManager()
         } else {
             errorThrowWhenMapIsNotSetted(sender: sender)
         }
@@ -395,7 +432,9 @@ final class ShipMapConfigurationViewController: UIViewController {
     
     @objc func joinBattleButtonTapSelector(_ sender: UIButton) {
         if self.viewModel.isFullMapSetted() {
-            self.viewModel.startMCAdvertiserAdvertising()
+            self.viewModel.setButtonType(with: .join)
+            self.viewModel.setDelegateToNetworkManager()
+            
         } else {
             errorThrowWhenMapIsNotSetted(sender: sender)
         }

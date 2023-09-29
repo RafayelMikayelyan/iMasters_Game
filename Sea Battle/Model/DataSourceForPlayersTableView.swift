@@ -17,6 +17,8 @@ enum ConnectingState {
     case notNonnected
     case connecting
     case connected
+    case networkMissing
+    case canceled
 }
 
 struct DataSourceForPlayersTableView {

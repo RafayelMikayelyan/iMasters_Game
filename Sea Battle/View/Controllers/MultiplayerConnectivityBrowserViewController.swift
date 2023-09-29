@@ -92,6 +92,10 @@ extension MultiplayerConnectivityBrowserViewController: UITableViewDataSource {
             cell.setStateLabelText(with: "Connecting...")
         case .connected:
             cell.setStateLabelText(with: "Connected...")
+        case .networkMissing:
+            cell.setStateLabelText(with: "Network missing")
+        case .canceled:
+            cell.setStateLabelText(with: "Invite cancelled")
         }
         return cell
     }
@@ -122,6 +126,6 @@ extension MultiplayerConnectivityBrowserViewController:UITableViewDelegate {
         self.playersTableView.deselectRow(at: indexPath, animated: true)
         self.viewModel.multipeerConnectivityForPlayers.setInviterIndex(with: indexPath)
         self.viewModel.multipeerConnectivityForPlayers.browserForConnect.invitePeer(self.viewModel.providePeerId(at: indexPath), to: self.viewModel.multipeerConnectivityForPlayers.multiplayerSession, withContext: "\(indexPath.row),\(indexPath.section)".data(using: .utf8), timeout: 30)
-        self.viewModel.setConnectionState(for: indexPath, with: .connecting)
+        self.viewModel.setConnectionState(self.viewModel.multipeerConnectivityForPlayers, for: indexPath, with: .connecting)
     }
 }
