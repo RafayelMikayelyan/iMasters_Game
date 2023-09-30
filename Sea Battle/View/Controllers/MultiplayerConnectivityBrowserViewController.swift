@@ -52,18 +52,20 @@ final class MultiplayerConnectivityBrowserViewController: UIViewController {
         
         configuireViewModel()
     }
-    
+        
     func setViewModelMultipeerConectivityHandler(with handler: MultiplayerConectionAsMPCHandler) {
         self.viewModel.setConnectivityHandler(with: handler)
     }
     
     func configuireViewModel() {
-        self.viewModel.functionalityWhenDataRecieved = {
+        self.viewModel.functionalityWhenDataRecieved = { [weak self] in
+            guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
                 self.playersTableView.reloadData()
             }
         }
-        self.viewModel.functionalityWhenConnectionFailed = {
+        self.viewModel.functionalityWhenConnectionFailed = { [weak self] in
+            guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
                 self.playersTableView.isUserInteractionEnabled = true
             }

@@ -24,7 +24,6 @@ extension ViewModelForPlayersTableView: PeerIDRecieverDelegate {
             self.functionalityWhenConnectionFailed()
         case .canceled:
             self.functionalityWhenConnectionFailed()
-
         default:
             break
         }

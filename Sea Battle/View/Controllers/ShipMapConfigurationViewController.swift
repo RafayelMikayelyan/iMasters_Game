@@ -128,34 +128,43 @@ final class ShipMapConfigurationViewController: UIViewController {
     
     private func configuireWithViewModel() {
         
-        self.viewModel.functionalityWhenShipsSectionDataProvided = {
+        self.viewModel.functionalityWhenShipsSectionDataProvided = { [weak self] in
+            guard let self else {return}
             self.shipsMapCollectionView.reloadData()//if i reload only section two animation always bring me to start on section two
         }
         
-        self.viewModel.functionalityWhenMapSectionDataProvided = {
+        self.viewModel.functionalityWhenMapSectionDataProvided = { [weak self] in
+            guard let self else {return}
             self.shipsMapCollectionView.reloadData()
         }
         
-        self.viewModel.functionalityWhenShipsCountAdded = {
+        self.viewModel.functionalityWhenShipsCountAdded = { [weak self] in
+            guard let self else {return}
             self.shipsMapCollectionView.removeGestureRecognizer(self.longPressGestureForMovingShip)
         }
         self.viewModel.getShipsDataModel()
         self.viewModel.getMapDataModel()
         self.viewModel.setMultipeerConectivityHandler(with :"Ashot,BannerBackground")
         self.viewModel.setTimertarget()
-        self.viewModel.setFunctionalityWhenConnectionEstablished {
+        self.viewModel.setFunctionalityWhenConnectionEstablished { [weak self] in
+            guard let self else {return}
             DispatchQueue.main.async(qos:.userInteractive) {
                 self.dismiss(animated: true) {
                     self.viewModel.stopMCAdvertiserAdvertising()
                     self.viewModel.resetBrowser()
                     let battleViewController = BattleViewController()
-                    battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle())), conectivityHandler: self.viewModel.provideConnectivityHandler())
+                    if self.viewModel.provideButtonType() == .join {
+                        battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle())), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canNotPlay)
+                    } else {
+                        battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle())), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canPlay)
+                    }
                     self.show(battleViewController, sender: nil)
                 }
             }
         }
         
-        self.viewModel.setFunctionalityWhenConnectionProvided {
+        self.viewModel.setFunctionalityWhenConnectionProvided { [weak self] in
+            guard let self else {return}
             self.viewModel.enterInovationToMultipeerConnectivity()
             self.inviteBanner = InviteBannerView()
             self.inviteBanner.setTargetToGetButton(self.viewModel)
@@ -175,7 +184,8 @@ final class ShipMapConfigurationViewController: UIViewController {
             }
         }
         
-        self.viewModel.functionalityWhenInviteBannerResponse = {
+        self.viewModel.functionalityWhenInviteBannerResponse = { [weak self] in
+            guard let self else {return}
             UIView.animate(withDuration: 0.5) {
                 self.blurWithBanner.alpha = 0
                 self.inviteBanner.frame.origin = CGPoint(x: 0, y: -self.view.bounds.height*0.15)
@@ -183,7 +193,8 @@ final class ShipMapConfigurationViewController: UIViewController {
             }
         }
         
-        self.viewModel.functionalityForStartButton = {
+        self.viewModel.functionalityForStartButton = { [weak self] in
+            guard let self else {return}
             DispatchQueue.main.async(qos:.userInteractive) {
                 if self.viewModel.givenConnectionStatus == .connected {
                     self.viewModel.startBrowsingOfMCBrowser()
@@ -205,7 +216,8 @@ final class ShipMapConfigurationViewController: UIViewController {
             }
         }
         
-        self.viewModel.functionalityForJoinButton = {
+        self.viewModel.functionalityForJoinButton = { [weak self] in 
+            guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
                 if self.viewModel.givenConnectionStatus == .connected {
                     self.viewModel.startMCAdvertiserAdvertising()

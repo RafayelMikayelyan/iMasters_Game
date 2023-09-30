@@ -60,6 +60,7 @@ final class BattleViewController: UIViewController {
         ])
         
         configuireViewModel()
+        setUpWithPlayingStatus()
     }
     
     private func configuiringWithSectionLayout() {
@@ -133,20 +134,31 @@ final class BattleViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
-    func setViewModel(with viewModel: ViewModelForBattleViewController, conectivityHandler: MultiplayerConectionAsMPCHandler) {
+    func setViewModel(with viewModel: ViewModelForBattleViewController, conectivityHandler: MultiplayerConectionAsMPCHandler, playingStatus: PlayingStatus) {
         self.viewModel = viewModel
         self.viewModel.setMultipeerConnectivityHandler(with: conectivityHandler)
+        self.viewModel.setPlayingStatus(with: playingStatus)
     }
     
     private func configuireViewModel() {
-        self.viewModel.functionalityWhenDataForSelfMapProvided = {
+        self.viewModel.functionalityWhenDataForSelfMapProvided = { [weak self] in
+            guard let self else {return}
             self.playerMapCollectionView.reloadData()
         }
-        self.viewModel.functionalityWhenDataForSelfMapProvided = {
+        self.viewModel.functionalityWhenDataForSelfMapProvided = { [weak self] in
+            guard let self else {return}
             self.playerMapCollectionView.reloadData()
         }
         self.viewModel.getDataForSelfMap()
         self.viewModel.getDataForOpponentMap()
+    }
+    
+    private func setUpWithPlayingStatus() {
+        if self.viewModel.providePlayingStatus() == .canPlay {
+            self.playerMapCollectionView.isUserInteractionEnabled = true
+        } else {
+            self.playerMapCollectionView.isUserInteractionEnabled = false
+        }
     }
     
 }

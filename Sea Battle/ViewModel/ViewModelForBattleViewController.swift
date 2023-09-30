@@ -7,10 +7,15 @@
 
 import Foundation
 
+enum PlayingStatus {
+    case canPlay
+    case canNotPlay
+}
+
 final class ViewModelForBattleViewController {
     
     private var multipeerConectivityHandler: MultiplayerConectionAsMPCHandler! = nil
-
+    private var playingStatus: PlayingStatus! = nil
     private(set) var providedDataForSelfMapSection: [String] = [String]() {
         didSet{
             functionalityWhenDataForSelfMapProvided()
@@ -42,6 +47,14 @@ final class ViewModelForBattleViewController {
     
     func setMultipeerConnectivityHandler(with handler: MultiplayerConectionAsMPCHandler) {
         self.multipeerConectivityHandler = handler
+    }
+    
+    func setPlayingStatus(with status: PlayingStatus) {
+        self.playingStatus = status
+    }
+    
+    func providePlayingStatus() -> PlayingStatus {
+        return self.playingStatus
     }
     
     func sendData(data: Data?) {

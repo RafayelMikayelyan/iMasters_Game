@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objc protocol InviteBannerViewTarget{
+@objc protocol InviteBannerViewTarget {
     @objc func inviteBannerTarhetForGet(_ sender: UIButton)
     @objc func inviteBannerTarhetForCancel(_ sender: UIButton)
 }

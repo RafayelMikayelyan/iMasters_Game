@@ -858,7 +858,11 @@ final class ViewModelForMapAndShips {
         self.mapDataModel.provide()
     }
     
-    func setFunctionalityWhenConnectionEstablished(with functionality: @escaping ()->Void) {
+    func provideButtonType() -> ButtonType {
+        return self.buttontype
+    }
+    
+    func setFunctionalityWhenConnectionEstablished(with functionality: @escaping () -> Void) {
         self.multipeerConectivityHandler.functionalityWhenConnectionEstablished = functionality
     }
     
