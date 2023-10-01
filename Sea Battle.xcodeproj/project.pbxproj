@@ -25,6 +25,8 @@
 		574813692AB9C37800CE9EE2 /* CellForMapAndShips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574813682AB9C37800CE9EE2 /* CellForMapAndShips.swift */; };
 		5748136E2AB9C3B000CE9EE2 /* MapPlayerSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5748136D2AB9C3B000CE9EE2 /* MapPlayerSectionHeaderView.swift */; };
 		574813712AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574813702AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift */; };
+		5754D9A22AC9A11500BC46BB /* AdvertiserSessionsCloser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754D9A12AC9A11500BC46BB /* AdvertiserSessionsCloser.swift */; };
+		5754D9A52AC9B5CC00BC46BB /* DataAboutPlayerSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754D9A42AC9B5CC00BC46BB /* DataAboutPlayerSingleton.swift */; };
 		575B5EBB2AC4D9C200065601 /* DataSourceForPlayersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B5EBA2AC4D9C200065601 /* DataSourceForPlayersTableView.swift */; };
 		575B5EBF2AC4DAA900065601 /* CellForPlayersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B5EBE2AC4DAA900065601 /* CellForPlayersTableView.swift */; };
 		575B5EC12AC4E06100065601 /* ViewModelForPlayersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B5EC02AC4E06100065601 /* ViewModelForPlayersTableView.swift */; };
@@ -63,6 +65,8 @@
 		574813682AB9C37800CE9EE2 /* CellForMapAndShips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForMapAndShips.swift; sourceTree = "<group>"; };
 		5748136D2AB9C3B000CE9EE2 /* MapPlayerSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPlayerSectionHeaderView.swift; sourceTree = "<group>"; };
 		574813702AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationViewForMapAndShips.swift; sourceTree = "<group>"; };
+		5754D9A12AC9A11500BC46BB /* AdvertiserSessionsCloser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertiserSessionsCloser.swift; sourceTree = "<group>"; };
+		5754D9A42AC9B5CC00BC46BB /* DataAboutPlayerSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAboutPlayerSingleton.swift; sourceTree = "<group>"; };
 		575B5EBA2AC4D9C200065601 /* DataSourceForPlayersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceForPlayersTableView.swift; sourceTree = "<group>"; };
 		575B5EBE2AC4DAA900065601 /* CellForPlayersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForPlayersTableView.swift; sourceTree = "<group>"; };
 		575B5EC02AC4E06100065601 /* ViewModelForPlayersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelForPlayersTableView.swift; sourceTree = "<group>"; };
@@ -145,6 +149,9 @@
 		574813452AB9C30500CE9EE2 = {
 			isa = PBXGroup;
 			children = (
+				574813512AB9C30500CE9EE2 /* AppDelegate.swift */,
+				574813532AB9C30500CE9EE2 /* SceneDelegate.swift */,
+				5754D9A32AC9B3A700BC46BB /* Singletons */,
 				4EAFE0342AC5E82C00945B14 /* Chess */,
 				574813502AB9C30500CE9EE2 /* Sea Battle */,
 				5748134F2AB9C30500CE9EE2 /* Products */,
@@ -162,8 +169,6 @@
 		574813502AB9C30500CE9EE2 /* Sea Battle */ = {
 			isa = PBXGroup;
 			children = (
-				574813512AB9C30500CE9EE2 /* AppDelegate.swift */,
-				574813532AB9C30500CE9EE2 /* SceneDelegate.swift */,
 				570863D72AB9E8D600CB8CAA /* Model */,
 				574813652AB9C30C00CE9EE2 /* View */,
 				57BBD7042ABC6CC70065664B /* ViewModel */,
@@ -230,6 +235,15 @@
 				574813702AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift */,
 			);
 			path = DecorationViews;
+			sourceTree = "<group>";
+		};
+		5754D9A32AC9B3A700BC46BB /* Singletons */ = {
+			isa = PBXGroup;
+			children = (
+				5754D9A12AC9A11500BC46BB /* AdvertiserSessionsCloser.swift */,
+				5754D9A42AC9B5CC00BC46BB /* DataAboutPlayerSingleton.swift */,
+			);
+			path = Singletons;
 			sourceTree = "<group>";
 		};
 		57BBD7042ABC6CC70065664B /* ViewModel */ = {
@@ -333,6 +347,7 @@
 				4EAFE0392AC5E8B500945B14 /* ChessBoardViewController.swift in Sources */,
 				579FA4EF2AC727A20004D10A /* NetworkConnectionCheckerManager.swift in Sources */,
 				575B5EBB2AC4D9C200065601 /* DataSourceForPlayersTableView.swift in Sources */,
+				5754D9A52AC9B5CC00BC46BB /* DataAboutPlayerSingleton.swift in Sources */,
 				57611F012AC49F370021220A /* MultiplayerConnectivityBrowserViewController.swift in Sources */,
 				57CEF4B42AC2F92A006BB3CD /* ViewModelForBattleViewController.swift in Sources */,
 				574813692AB9C37800CE9EE2 /* CellForMapAndShips.swift in Sources */,
@@ -343,6 +358,7 @@
 				574813522AB9C30500CE9EE2 /* AppDelegate.swift in Sources */,
 				570863D12AB9C4A800CB8CAA /* ShipsCell.swift in Sources */,
 				575B5EC32AC4F7E700065601 /* PlayersTableViewHeaderView.swift in Sources */,
+				5754D9A22AC9A11500BC46BB /* AdvertiserSessionsCloser.swift in Sources */,
 				574813542AB9C30500CE9EE2 /* SceneDelegate.swift in Sources */,
 				57BBD72D2ABCBAD20065664B /* ViewModelForMapAndShips.swift in Sources */,
 			);

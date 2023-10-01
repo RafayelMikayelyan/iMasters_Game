@@ -28,7 +28,6 @@ extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDeleg
 
 }
 
-
 final class MultiplayerConectionAsMPCHandler: NSObject {
     
     var functionlaityWhenConnectionInviteProvided: () -> Void = {}
@@ -52,6 +51,11 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
         self.multiplayerSession = MCSession(peer: self.playerPeerId, securityIdentity: nil, encryptionPreference: .required)
         self.advertiserForBroadcasting = MCNearbyServiceAdvertiser(peer: self.playerPeerId, discoveryInfo: nil, serviceType: self.multipeerServiceType)
         self.browserForConnect = MCNearbyServiceBrowser(peer: self.playerPeerId, serviceType: self.multipeerServiceType)
+        AdvertiserSessionsCloser.shared.addAdvertiserAssintent(with: self.advertiserForBroadcasting)
+    }
+    
+    func addAdvertiserToCloder() {
+        AdvertiserSessionsCloser.shared.addAdvertiserAssintent(with: self.advertiserForBroadcasting)
     }
     
     func setUpDelegates() {

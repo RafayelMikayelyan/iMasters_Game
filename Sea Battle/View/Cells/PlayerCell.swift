@@ -11,7 +11,7 @@ final class PlayerCell: UICollectionViewCell {
     
     private let playerIcon:UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ShipsMapsBackground")
+        imageView.image = DataAboutPlayerSingleton.shared.providePlayerIcon()
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -21,7 +21,7 @@ final class PlayerCell: UICollectionViewCell {
     
     private let playerNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ashot"
+        label.text = DataAboutPlayerSingleton.shared.providePlayerName()
         label.font = .boldSystemFont(ofSize: 25)
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .white

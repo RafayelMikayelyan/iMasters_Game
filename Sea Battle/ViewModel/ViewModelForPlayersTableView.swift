@@ -69,6 +69,7 @@ final class ViewModelForPlayersTableView {
     
     func setConnectivityHandler(with handler: MultiplayerConectionAsMPCHandler) {
         self.multipeerConnectivityForPlayers = handler
+        self.multipeerConnectivityForPlayers.addAdvertiserToCloder()
     }
 
 }

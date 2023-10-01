@@ -11,7 +11,7 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
     
     private let playerIcon:UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ShipsMapsBackground")
+        imageView.image = DataAboutPlayerSingleton.shared.providePlayerIcon()
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -31,7 +31,7 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
     
     private let playerNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ashot"
+        label.text = DataAboutPlayerSingleton.shared.providePlayerName()
         label.font = .boldSystemFont(ofSize: 25)
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .white
@@ -51,6 +51,29 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
         return label
     }()
     
+    private let timerLibel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let playerScoreLable: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.text = "Scores:"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let oponentScoreLable: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.text = "Scores:"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -58,6 +81,7 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
         self.addSubview(playerNameLabel)
         self.addSubview(opponentIcon)
         self.addSubview(opponentNameLabel)
+        self.addSubview(timerLibel)
         
         NSLayoutConstraint.activate([
             playerIcon.leftAnchor.constraint(equalTo: self.leftAnchor,constant: 10),
@@ -67,6 +91,8 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
             playerNameLabel.leftAnchor.constraint(equalTo: self.playerIcon.leftAnchor,constant: 7),
             playerNameLabel.rightAnchor.constraint(equalTo: self.playerIcon.rightAnchor,constant: -4),
             playerNameLabel.bottomAnchor.constraint(equalTo: playerIcon.bottomAnchor,constant: -3),
+            timerLibel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            timerLibel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             opponentIcon.rightAnchor.constraint(equalTo: self.rightAnchor,constant: -10),
             opponentIcon.topAnchor.constraint(equalTo: self.topAnchor),
             opponentIcon.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -109,4 +135,7 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
         ])
     }
     
+    func updateTimerValue(with value: String) {
+        self.timerLibel.text = value
+    }
 }

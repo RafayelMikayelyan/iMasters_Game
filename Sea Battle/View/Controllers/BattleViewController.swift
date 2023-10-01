@@ -149,8 +149,28 @@ final class BattleViewController: UIViewController {
             guard let self else {return}
             self.playerMapCollectionView.reloadData()
         }
+        self.viewModel.functionalityWhenPlayingStatusChanged = { [weak self] in
+            guard let self else {return}
+            if self.viewModel.providePlayingStatus() == .canPlay {
+                self.playerMapCollectionView.isUserInteractionEnabled = true
+            } else {
+                self.playerMapCollectionView.isUserInteractionEnabled = false
+            }
+        }
         self.viewModel.getDataForSelfMap()
         self.viewModel.getDataForOpponentMap()
+        self.viewModel.functionalityWhenTimerUpdates = { [weak self] in
+            guard let self else {return}
+            let cell = (self.playerMapCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! PlayerCellForBattleViewController)
+            if self.viewModel.secondsRemained <= 9 && self.viewModel.secondsRemained > 0 {
+                cell.updateTimerValue(with: "00:0\(self.viewModel.secondsRemained)")
+            } else {
+                cell.updateTimerValue(with: "00:\(self.viewModel.secondsRemained)")
+            }
+            if self.viewModel.secondsRemained == 0 {
+                cell.updateTimerValue(with: "")
+            }
+        }
     }
     
     private func setUpWithPlayingStatus() {
