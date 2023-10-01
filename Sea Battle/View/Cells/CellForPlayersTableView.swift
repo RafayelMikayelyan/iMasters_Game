@@ -37,13 +37,13 @@ final class CellForPlayersTableView: UITableViewCell {
         return label
     }()
     
-    func configuration(name:String,icon:String) {
+    func configuration(name:String,icon:Data) {
         
         self.backgroundColor = .cyan.withAlphaComponent(0.1)
         self.clipsToBounds = true
         self.layer.cornerRadius = 15
         
-        self.playerIcon.image = UIImage(named: icon)
+        self.playerIcon.image = UIImage(data: icon)
         self.playerNameLabel.text = name
         
         self.contentView.addSubview(playerIcon)

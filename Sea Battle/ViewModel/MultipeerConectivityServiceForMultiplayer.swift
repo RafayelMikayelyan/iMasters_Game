@@ -16,6 +16,12 @@ protocol PeerIDRecieverDelegate: AnyObject {
     @objc func timerResponderSelector(_ sender: Timer)
 }
 
+extension MCPeerID {
+    var discoveryData: Data? {
+        return DataAboutPlayerSingleton.shared.provideIconDescription()
+    }
+}
+
 extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDelegate {
     func provideStatus(_sender: NetworkConnectionCheckerManager, status: ConnectionStatus) {
         self.givenNetworkConnectionStatus = status
@@ -30,7 +36,7 @@ extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDeleg
 
 final class MultiplayerConectionAsMPCHandler: NSObject {
     
-    var functionlaityWhenConnectionInviteProvided: () -> Void = {}
+    var functionlaityWhenConnectionInviteProvided: (Data) -> Void = {_ in }
     var functionalityWhenConnectionEstablished: () -> Void = {}
     
     private let multipeerServiceType: String = "Multiplayer"
@@ -136,7 +142,8 @@ extension MultiplayerConectionAsMPCHandler: MCNearbyServiceAdvertiserDelegate {
         if let target = self.timerTarget {
             _ = Timer.scheduledTimer(timeInterval: 30, target: target, selector:#selector(self.timerTarget?.timerResponderSelector) , userInfo: nil, repeats: false)
         }
-        self.functionlaityWhenConnectionInviteProvided()
+        guard let data = context else {return}
+        self.functionlaityWhenConnectionInviteProvided(data)
         self.group.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
             invitationHandler(self.canConnect!,self.multiplayerSession)
         }

@@ -34,7 +34,7 @@ struct DataSourceForPlayersTableView {
     var functionalityWhenDataRecieved: () -> Void = {}
     
     func provideDataForNames() -> [String] {
-        return self.dataSource.map({String(($0.displayName.split(separator: ","))[0])})
+        return self.dataSource.map({$0.displayName})
     }
     
     mutating func setUpWithConnectionStates() -> [ConnectingState] {
@@ -42,8 +42,8 @@ struct DataSourceForPlayersTableView {
         return self.connectingState
     }
     
-    func provideDataForIcons() -> [String] {
-        return self.dataSource.map({String(($0.displayName.split(separator: ","))[1])})
+    func provideDataForIcons() -> [Data] {
+        return self.dataSource.map({$0.discoveryData!})
     }
     
     mutating func handleIncomingData(data: MCPeerID, with type: DataType) {

@@ -133,7 +133,7 @@ extension MultiplayerConnectivityBrowserViewController:UITableViewDelegate {
         self.playersTableView.isUserInteractionEnabled = false
         self.playersTableView.deselectRow(at: indexPath, animated: true)
         self.viewModel.multipeerConnectivityForPlayers.setInviterIndex(with: indexPath)
-        self.viewModel.multipeerConnectivityForPlayers.browserForConnect.invitePeer(self.viewModel.providePeerId(at: indexPath), to: self.viewModel.multipeerConnectivityForPlayers.multiplayerSession, withContext: "\(indexPath.row),\(indexPath.section)".data(using: .utf8), timeout: 30)
+        self.viewModel.multipeerConnectivityForPlayers.browserForConnect.invitePeer(self.viewModel.providePeerId(at: indexPath), to: self.viewModel.multipeerConnectivityForPlayers.multiplayerSession, withContext: DataAboutPlayerSingleton.shared.provideIconDescription(), timeout: 30)
         self.viewModel.setConnectionState(self.viewModel.multipeerConnectivityForPlayers, for: indexPath, with: .connecting)
     }
 }

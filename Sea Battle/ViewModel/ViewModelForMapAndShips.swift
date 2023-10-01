@@ -866,7 +866,7 @@ final class ViewModelForMapAndShips {
         self.multipeerConectivityHandler.functionalityWhenConnectionEstablished = functionality
     }
     
-    func setFunctionalityWhenConnectionProvided(with functionality: @escaping ()->Void) {
+    func setFunctionalityWhenConnectionProvided(with functionality: @escaping (Data)->Void) {
         self.multipeerConectivityHandler.functionlaityWhenConnectionInviteProvided = functionality
     }
     

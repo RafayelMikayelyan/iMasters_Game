@@ -165,6 +165,10 @@ final class InviteBannerView: UIView {
         ])
     }
     
+    func bannerPlayerIcon(with data: Data) {
+        self.playerIcon.image = UIImage(data: data)
+    }
+    
     func setTargetToGetButton(_ target: InviteBannerViewTarget) {
         self.getInviteButton.addTarget(target, action: #selector(target.inviteBannerTarhetForGet), for: .touchUpInside)
     }

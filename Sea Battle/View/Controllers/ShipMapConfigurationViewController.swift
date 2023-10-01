@@ -144,7 +144,7 @@ final class ShipMapConfigurationViewController: UIViewController {
         }
         self.viewModel.getShipsDataModel()
         self.viewModel.getMapDataModel()
-        self.viewModel.setMultipeerConectivityHandler(with :"Ashot,BannerBackground")
+        self.viewModel.setMultipeerConectivityHandler(with :"Ashot")
         self.viewModel.setTimertarget()
         self.viewModel.setFunctionalityWhenConnectionEstablished { [weak self] in
             guard let self else {return}
@@ -163,12 +163,13 @@ final class ShipMapConfigurationViewController: UIViewController {
             }
         }
         
-        self.viewModel.setFunctionalityWhenConnectionProvided { [weak self] in
+        self.viewModel.setFunctionalityWhenConnectionProvided { [weak self] data in
             guard let self else {return}
             self.viewModel.enterInovationToMultipeerConnectivity()
             self.inviteBanner = InviteBannerView()
             self.inviteBanner.setTargetToGetButton(self.viewModel)
             self.inviteBanner.setTargetToCancelButton(self.viewModel)
+            self.inviteBanner.bannerPlayerIcon(with: data)
             self.view.addSubview(self.blurWithBanner)
             self.view.addSubview(self.inviteBanner)
             NSLayoutConstraint.activate([

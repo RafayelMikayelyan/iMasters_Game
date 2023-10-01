@@ -14,6 +14,7 @@ final class DataAboutPlayerSingleton {
     
     private var playerName: String = "Player"
     private var playerIcon: UIImage? = UIImage(named: "defaultPlayerIcon")
+    private var iconDataDescription: Data? = UIImage(named: "defaultPlayerIcon")?.jpegData(compressionQuality: 1)
     
     private init() {}
     
@@ -23,6 +24,7 @@ final class DataAboutPlayerSingleton {
     
     func setPlayerIcon(with image: UIImage) {
         self.playerIcon = image
+        self.iconDataDescription = self.playerIcon?.jpegData(compressionQuality: 1)
     }
     
     func providePlayerName() -> String {
@@ -32,4 +34,10 @@ final class DataAboutPlayerSingleton {
     func providePlayerIcon() -> UIImage? {
         return self.playerIcon
     }
+    
+    func provideIconDescription() -> Data {
+        guard let data = self.iconDataDescription else {return Data.init()}
+        return data
+    }
+
 }

@@ -47,7 +47,7 @@ final class ViewModelForPlayersTableView {
             functionalityWhenDataRecieved()
         }
     }
-    private(set) var givenDataForPlayerIcons: [String] = [String]() {
+    private(set) var givenDataForPlayerIcons: [Data] = [Data]() {
         didSet {
             functionalityWhenDataRecieved()
         }
