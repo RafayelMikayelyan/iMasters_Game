@@ -881,4 +881,5 @@ final class ViewModelForMapAndShips {
     func setButtonType(with type: ButtonType) {
         self.buttontype = type
     }
+
 }

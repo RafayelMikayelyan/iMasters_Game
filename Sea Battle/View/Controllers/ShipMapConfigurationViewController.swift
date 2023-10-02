@@ -93,7 +93,7 @@ final class ShipMapConfigurationViewController: UIViewController {
         shipsMapCollectionView.addGestureRecognizer(longPressGestureForMovingShipOnMap)
         shipsMapCollectionView.addGestureRecognizer(longPressGestureForMovingShip)
         shipsMapCollectionView.addGestureRecognizer(doubleTapToRotateOnMapGesture)
-                
+                                
         self.longPressGestureForMovingShip.delegate = self
         self.longPressGestureForMovingShipOnMap.delegate = self
         self.doubleTapToRotateOnMapGesture.delegate = self
@@ -144,7 +144,7 @@ final class ShipMapConfigurationViewController: UIViewController {
         }
         self.viewModel.getShipsDataModel()
         self.viewModel.getMapDataModel()
-        self.viewModel.setMultipeerConectivityHandler(with :"Ashot")
+        self.viewModel.setMultipeerConectivityHandler(with :DataAboutPlayerSingleton.shared.providePlayerName())
         self.viewModel.setTimertarget()
         self.viewModel.setFunctionalityWhenConnectionEstablished { [weak self] in
             guard let self else {return}
@@ -437,6 +437,7 @@ final class ShipMapConfigurationViewController: UIViewController {
     
     @objc func startBattleButtonTapSelector(_ sender: UIButton) {
         if self.viewModel.isFullMapSetted() {
+            DataAboutPlayerSingleton.shared.setPlayer(with: self.viewModel.provideDataForSelfMapOnBattle())
             self.viewModel.setButtonType(with: .start)
             self.viewModel.setDelegateToNetworkManager()
         } else {
@@ -446,6 +447,7 @@ final class ShipMapConfigurationViewController: UIViewController {
     
     @objc func joinBattleButtonTapSelector(_ sender: UIButton) {
         if self.viewModel.isFullMapSetted() {
+            DataAboutPlayerSingleton.shared.setPlayer(with: self.viewModel.provideDataForSelfMapOnBattle())
             self.viewModel.setButtonType(with: .join)
             self.viewModel.setDelegateToNetworkManager()
             
