@@ -30,8 +30,8 @@ extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDeleg
 
 final class MultiplayerConectionAsMPCHandler: NSObject {
     
-    var functionlaityWhenConnectionInviteProvided: (Data) -> Void = {_ in }
-    var functionalityWhenConnectionEstablished: () -> Void = {}
+    var functionlaityWhenConnectionInviteProvided: (PlayerContextualData) -> Void = {_ in }
+    var functionalityWhenConnectionEstablished: (SeaBattlePlayer) -> Void = {_ in }
     
     private let multipeerServiceType: String = "Multiplayer"
     private(set) var multiplayerSession: MCSession!
@@ -105,7 +105,6 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
             let json = try? JSONEncoder().encode(DataAboutPlayerSingleton.shared.providePlayer())
             guard let json else {return}
             try? self.multiplayerSession.send(json, toPeers: self.multiplayerSession.connectedPeers, with: .reliable)
-            functionalityWhenConnectionEstablished()
         }
         
         if state == .notConnected {
@@ -117,7 +116,8 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         let dataDecoded = try? JSONDecoder().decode(SeaBattlePlayer.self, from: data)
-        print(dataDecoded)
+        guard let dataDecoded else {return}
+        functionalityWhenConnectionEstablished(dataDecoded)
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -139,8 +139,8 @@ extension MultiplayerConectionAsMPCHandler: MCNearbyServiceAdvertiserDelegate {
         if let target = self.timerTarget {
             _ = Timer.scheduledTimer(timeInterval: 30, target: target, selector:#selector(self.timerTarget?.timerResponderSelector) , userInfo: nil, repeats: false)
         }
-        guard let data = context else {return}
-        self.functionlaityWhenConnectionInviteProvided(data)
+        guard let context, let decodedData = try? JSONDecoder().decode(PlayerContextualData.self, from: context) else {return}
+        self.functionlaityWhenConnectionInviteProvided(decodedData)
         self.group.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
             invitationHandler(self.canConnect!,self.multiplayerSession)
         }

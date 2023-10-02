@@ -862,11 +862,11 @@ final class ViewModelForMapAndShips {
         return self.buttontype
     }
     
-    func setFunctionalityWhenConnectionEstablished(with functionality: @escaping () -> Void) {
+    func setFunctionalityWhenConnectionEstablished(with functionality: @escaping (SeaBattlePlayer) -> Void) {
         self.multipeerConectivityHandler.functionalityWhenConnectionEstablished = functionality
     }
     
-    func setFunctionalityWhenConnectionProvided(with functionality: @escaping (Data)->Void) {
+    func setFunctionalityWhenConnectionProvided(with functionality: @escaping (PlayerContextualData)->Void) {
         self.multipeerConectivityHandler.functionlaityWhenConnectionInviteProvided = functionality
     }
     

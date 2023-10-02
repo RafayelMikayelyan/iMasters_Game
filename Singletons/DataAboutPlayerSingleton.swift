@@ -31,7 +31,7 @@ final class DataAboutPlayerSingleton {
     private var iconDataDescription: Data? {
         return playerIcon?.jpegData(compressionQuality: 1)
     }
-    private var playerGender: String! = "girl"
+    private var playerGender: String! = "boy"
     private var playerInfo: SeaBattlePlayer! = nil
     
     private init() {}
@@ -82,10 +82,10 @@ final class DataAboutPlayerSingleton {
 }
 
 struct SeaBattlePlayer: Codable {
-    private var playerName:String
-    private var playerIconDescription: Data
-    private var playergender: String
-    private var mapData:[String]
+    private(set) var playerName:String
+    private(set) var playerIconDescription: Data
+    private(set) var playergender: String
+    private(set) var mapData:[String]
     
     init(playerName: String, playerIconDescription: Data, playergender: String, mapData: [String]) {
         self.playerName = playerName
@@ -93,5 +93,14 @@ struct SeaBattlePlayer: Codable {
         self.playergender = playergender
         self.mapData = mapData
     }
-    
+}
+
+struct PlayerContextualData: Codable {
+    private(set) var playerName:String
+    private(set) var playerIconDescription: Data
+
+    init(playerName: String, playerIconDescription: Data) {
+        self.playerName = playerName
+        self.playerIconDescription = playerIconDescription
+    }
 }
