@@ -246,14 +246,22 @@
 			path = Singletons;
 			sourceTree = "<group>";
 		};
+		5754D9A82AC9FF7A00BC46BB /* ConnectionManagers */ = {
+			isa = PBXGroup;
+			children = (
+				57C84B4D2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift */,
+				579FA4EE2AC727A20004D10A /* NetworkConnectionCheckerManager.swift */,
+			);
+			path = ConnectionManagers;
+			sourceTree = "<group>";
+		};
 		57BBD7042ABC6CC70065664B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				57BBD72C2ABCBAD20065664B /* ViewModelForMapAndShips.swift */,
 				57CEF4B32AC2F92A006BB3CD /* ViewModelForBattleViewController.swift */,
 				575B5EC02AC4E06100065601 /* ViewModelForPlayersTableView.swift */,
-				57C84B4D2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift */,
-				579FA4EE2AC727A20004D10A /* NetworkConnectionCheckerManager.swift */,
+				5754D9A82AC9FF7A00BC46BB /* ConnectionManagers */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -520,7 +528,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -549,7 +557,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

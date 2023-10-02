@@ -93,7 +93,7 @@ final class ShipMapConfigurationViewController: UIViewController {
         shipsMapCollectionView.addGestureRecognizer(longPressGestureForMovingShipOnMap)
         shipsMapCollectionView.addGestureRecognizer(longPressGestureForMovingShip)
         shipsMapCollectionView.addGestureRecognizer(doubleTapToRotateOnMapGesture)
-                
+                                
         self.longPressGestureForMovingShip.delegate = self
         self.longPressGestureForMovingShipOnMap.delegate = self
         self.doubleTapToRotateOnMapGesture.delegate = self
@@ -144,9 +144,9 @@ final class ShipMapConfigurationViewController: UIViewController {
         }
         self.viewModel.getShipsDataModel()
         self.viewModel.getMapDataModel()
-        self.viewModel.setMultipeerConectivityHandler(with :"Ashot")
+        self.viewModel.setMultipeerConectivityHandler(with :DataAboutPlayerSingleton.shared.providePlayerName())
         self.viewModel.setTimertarget()
-        self.viewModel.setFunctionalityWhenConnectionEstablished { [weak self] in
+        self.viewModel.setFunctionalityWhenConnectionEstablished { [weak self] data in
             guard let self else {return}
             DispatchQueue.main.async(qos:.userInteractive) {
                 self.dismiss(animated: true) {
@@ -154,9 +154,9 @@ final class ShipMapConfigurationViewController: UIViewController {
                     self.viewModel.resetBrowser()
                     let battleViewController = BattleViewController()
                     if self.viewModel.provideButtonType() == .join {
-                        battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle())), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canNotPlay)
+                        battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canNotPlay)
                     } else {
-                        battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle())), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canPlay)
+                        battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canPlay)
                     }
                     self.show(battleViewController, sender: nil)
                 }
@@ -169,7 +169,7 @@ final class ShipMapConfigurationViewController: UIViewController {
             self.inviteBanner = InviteBannerView()
             self.inviteBanner.setTargetToGetButton(self.viewModel)
             self.inviteBanner.setTargetToCancelButton(self.viewModel)
-            self.inviteBanner.bannerPlayerIcon(with: data)
+            self.inviteBanner.setBannerPlayerIconName(with: data)
             self.view.addSubview(self.blurWithBanner)
             self.view.addSubview(self.inviteBanner)
             NSLayoutConstraint.activate([
@@ -437,6 +437,7 @@ final class ShipMapConfigurationViewController: UIViewController {
     
     @objc func startBattleButtonTapSelector(_ sender: UIButton) {
         if self.viewModel.isFullMapSetted() {
+            DataAboutPlayerSingleton.shared.setPlayer(with: self.viewModel.provideDataForSelfMapOnBattle())
             self.viewModel.setButtonType(with: .start)
             self.viewModel.setDelegateToNetworkManager()
         } else {
@@ -446,6 +447,7 @@ final class ShipMapConfigurationViewController: UIViewController {
     
     @objc func joinBattleButtonTapSelector(_ sender: UIButton) {
         if self.viewModel.isFullMapSetted() {
+            DataAboutPlayerSingleton.shared.setPlayer(with: self.viewModel.provideDataForSelfMapOnBattle())
             self.viewModel.setButtonType(with: .join)
             self.viewModel.setDelegateToNetworkManager()
             

@@ -15,6 +15,7 @@ enum PlayingStatus {
 final class ViewModelForBattleViewController {
     
     private var multipeerConectivityHandler: MultiplayerConectionAsMPCHandler! = nil
+    private var opponentPlayer: SeaBattlePlayer
     private var playingStatus: PlayingStatus! = nil {
         didSet {
             if self.playingStatus == .canPlay {
@@ -46,8 +47,9 @@ final class ViewModelForBattleViewController {
     
     private var timerForPlayerAction: Timer! = nil
     
-    init(dataModel: DataSourceForBattleViewController) {
+    init(dataModel: DataSourceForBattleViewController, opponentPlayer: SeaBattlePlayer) {
         self.dataModel = dataModel
+        self.opponentPlayer = opponentPlayer
     }
     
     var functionalityWhenPlayingStatusChanged: () -> Void = {}
@@ -83,6 +85,14 @@ final class ViewModelForBattleViewController {
     
     func setTimer() {
         self.timerForPlayerAction = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerUpdateSelector), userInfo: nil, repeats: false)
+    }
+    
+    func provideOpponentName() -> String {
+        return self.opponentPlayer.playerName
+    }
+    
+    func provideOpponentIcon() -> Data {
+        return self.opponentPlayer.playerIconDescription
     }
     
     @objc private func timerUpdateSelector() {

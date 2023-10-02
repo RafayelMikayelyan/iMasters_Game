@@ -202,6 +202,7 @@ extension BattleViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = self.playerMapCollectionView.dequeueReusableCell(withReuseIdentifier: "playerCell", for: indexPath) as! PlayerCellForBattleViewController
+            cell.configuire(name: self.viewModel.provideOpponentName(), icon: self.viewModel.provideOpponentIcon())
             return cell
         } else if indexPath.section == 1 {
             if !(["","A","B","C","D","E","F","G","H","I","J","1","2","3","4","5","6","7","8","9","10"].contains(self.viewModel.providedDataForSelfMapSection[indexPath.item])) {
