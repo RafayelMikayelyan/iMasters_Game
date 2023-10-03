@@ -8,11 +8,15 @@
 import Foundation
 import MultipeerConnectivity
 
+protocol Sender: AnyObject {
+    var isConnectionEstablished: Bool {get set}
+    func establisheConnection(_ sender: UIViewController, canEstablishe: Bool)
+}
+
 extension ViewModelForPlayersTableView: PeerIDRecieverDelegate {
    
-    
-    func getPeerId(_ sender: MultiplayerConectionAsMPCHandler,peerId: MCPeerID, with type: DataType) {
-        self.dataModel.handleIncomingData(data: peerId, with: type)
+    func getPeerId(_ sender: MultiplayerConectionAsMPCHandler,peerId: MCPeerID,discoveryInfo: [String:String]?, with type: DataType) {
+        self.dataModel.handleIncomingData(data: peerId,discoveryInfo:discoveryInfo, with: type)
         self.getDataFromDataModel()
     }
     
@@ -47,7 +51,7 @@ final class ViewModelForPlayersTableView {
             functionalityWhenDataRecieved()
         }
     }
-    private(set) var givenDataForPlayerIcons: [Data] = [Data]() {
+    private(set) var givenDataForPlayerIcons: [Data?] = [Data?]() {
         didSet {
             functionalityWhenDataRecieved()
         }
@@ -65,6 +69,14 @@ final class ViewModelForPlayersTableView {
     
     func providePeerId(at index: IndexPath) -> MCPeerID {
         return self.dataModel.providePeerId(at: index)
+    }
+    
+    func isConnected() -> Bool {
+        if let connectedState = self.givenDataForConnectionStates.first(where: {$0 == .connected}) {
+            return true
+        } else {
+            return false
+        }
     }
     
     func setConnectivityHandler(with handler: MultiplayerConectionAsMPCHandler) {

@@ -11,7 +11,6 @@ final class CellForPlayersTableView: UITableViewCell {
     
     private let playerIcon:UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = UIImage(named: "ShipsMapsBackground")
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -21,7 +20,6 @@ final class CellForPlayersTableView: UITableViewCell {
     
     private let playerNameLabel: UILabel = {
         let label = UILabel()
-//        label.text = "Ashot"
         label.font = .boldSystemFont(ofSize: 20)
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .white
@@ -37,13 +35,15 @@ final class CellForPlayersTableView: UITableViewCell {
         return label
     }()
     
-    func configuration(name:String,icon:Data) {
+    func configuration(name:String,icon:Data?) {
         
         self.backgroundColor = .cyan.withAlphaComponent(0.1)
         self.clipsToBounds = true
         self.layer.cornerRadius = 15
         
-        self.playerIcon.image = UIImage(data: icon)
+        if let icon {
+            self.playerIcon.image = UIImage(data: icon)
+        }
         self.playerNameLabel.text = name
         
         self.contentView.addSubview(playerIcon)

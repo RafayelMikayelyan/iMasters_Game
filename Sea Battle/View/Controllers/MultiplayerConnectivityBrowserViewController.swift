@@ -26,6 +26,8 @@ final class MultiplayerConnectivityBrowserViewController: UIViewController {
     
     private let viewModel: ViewModelForPlayersTableView = ViewModelForPlayersTableView()
     
+    weak var delegate: Sender?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +63,10 @@ final class MultiplayerConnectivityBrowserViewController: UIViewController {
         self.viewModel.functionalityWhenDataRecieved = { [weak self] in
             guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
+                if self.viewModel.isConnected() {
+                    self.dismiss(animated: true)
+                    self.delegate?.establisheConnection(self, canEstablishe: true)
+                }
                 self.playersTableView.reloadData()
             }
         }
@@ -133,7 +139,8 @@ extension MultiplayerConnectivityBrowserViewController:UITableViewDelegate {
         self.playersTableView.isUserInteractionEnabled = false
         self.playersTableView.deselectRow(at: indexPath, animated: true)
         self.viewModel.multipeerConnectivityForPlayers.setInviterIndex(with: indexPath)
-        self.viewModel.multipeerConnectivityForPlayers.browserForConnect.invitePeer(self.viewModel.providePeerId(at: indexPath), to: self.viewModel.multipeerConnectivityForPlayers.multiplayerSession, withContext: DataAboutPlayerSingleton.shared.provideIconDescription(), timeout: 30)
+        let encodedData = try? JSONEncoder().encode(PlayerContextualData(playerName: DataAboutPlayerSingleton.shared.providePlayerName(), playerIconDescription: DataAboutPlayerSingleton.shared.provideIconDescription()))
+        self.viewModel.multipeerConnectivityForPlayers.browserForConnect.invitePeer(self.viewModel.providePeerId(at: indexPath), to: self.viewModel.multipeerConnectivityForPlayers.multiplayerSession, withContext: encodedData, timeout: 30)
         self.viewModel.setConnectionState(self.viewModel.multipeerConnectivityForPlayers, for: indexPath, with: .connecting)
     }
 }

@@ -165,8 +165,9 @@ final class InviteBannerView: UIView {
         ])
     }
     
-    func bannerPlayerIcon(with data: Data) {
-        self.playerIcon.image = UIImage(data: data)
+    func setBannerPlayerIconName(with data: PlayerContextualData) {
+        self.playerIcon.image = UIImage(data: data.playerIconDescription)
+        self.playerNameLabel.text = data.playerName
     }
     
     func setTargetToGetButton(_ target: InviteBannerViewTarget) {

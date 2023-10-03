@@ -7,6 +7,14 @@
 
 import Foundation
 import MultipeerConnectivity
+import UIKit.UIImage
+
+extension String {
+    func convertingStringToImageData() -> Data? {
+        guard let image = UIImage(named: self) else {return nil}
+        return image.jpegData(compressionQuality: 1)
+    }
+}
 
 enum DataType {
     case lost
@@ -23,15 +31,11 @@ enum ConnectingState {
 
 struct DataSourceForPlayersTableView {
     
-    private var dataSource: [MCPeerID] = [MCPeerID]() {
-        didSet {
-            functionalityWhenDataRecieved()
-        }
-    }
+    private var dataSource: [MCPeerID] = [MCPeerID]()
+    
+    private var dataSourceOfGenders: [String] = [String]()
     
     private var connectingState: [ConnectingState] = [ConnectingState]()
-    
-    var functionalityWhenDataRecieved: () -> Void = {}
     
     func provideDataForNames() -> [String] {
         return self.dataSource.map({$0.displayName})
@@ -42,17 +46,23 @@ struct DataSourceForPlayersTableView {
         return self.connectingState
     }
     
-    func provideDataForIcons() -> [Data] {
-        return self.dataSource.map({$0.discoveryData!})
+    func provideDataForIcons() -> [Data?] {
+        return self.dataSourceOfGenders.map({$0.convertingStringToImageData()})
     }
     
-    mutating func handleIncomingData(data: MCPeerID, with type: DataType) {
+    mutating func handleIncomingData(data: MCPeerID,discoveryInfo: [String:String]?, with type: DataType) {
         switch type {
         case .lost:
             self.dataSource.removeAll(where: {$0 === data})
         case .get:
             self.dataSource.append(data)
-            print(self.dataSource)
+            guard let discoveryInfo = discoveryInfo else {return}
+            guard let info = discoveryInfo["gender"] else {return}
+            if info == "boy" {
+                self.dataSourceOfGenders.append("defaultBoyPlayerIcon")
+            } else {
+                self.dataSourceOfGenders.append("defaultGirlPlayerIcon")
+            }
         }
     }
     

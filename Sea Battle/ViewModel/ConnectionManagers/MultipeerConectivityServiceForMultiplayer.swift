@@ -8,18 +8,12 @@
 import MultipeerConnectivity
 
 protocol PeerIDRecieverDelegate: AnyObject {
-    func getPeerId(_ sender: MultiplayerConectionAsMPCHandler,peerId: MCPeerID, with type: DataType)
+    func getPeerId(_ sender: MultiplayerConectionAsMPCHandler,peerId: MCPeerID,discoveryInfo: [String:String]?, with type: DataType)
     func setConnectionState(_ sender: MultiplayerConectionAsMPCHandler,for index: IndexPath, with state: ConnectingState)
 }
 
 @objc protocol TimerResponder {
     @objc func timerResponderSelector(_ sender: Timer)
-}
-
-extension MCPeerID {
-    var discoveryData: Data? {
-        return DataAboutPlayerSingleton.shared.provideIconDescription()
-    }
 }
 
 extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDelegate {
@@ -36,8 +30,8 @@ extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDeleg
 
 final class MultiplayerConectionAsMPCHandler: NSObject {
     
-    var functionlaityWhenConnectionInviteProvided: (Data) -> Void = {_ in }
-    var functionalityWhenConnectionEstablished: () -> Void = {}
+    var functionlaityWhenConnectionInviteProvided: (PlayerContextualData) -> Void = {_ in }
+    var functionalityWhenConnectionEstablished: (SeaBattlePlayer) -> Void = {_ in }
     
     private let multipeerServiceType: String = "Multiplayer"
     private(set) var multiplayerSession: MCSession!
@@ -55,7 +49,7 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
     init(displayName: String) {
         self.playerPeerId = MCPeerID(displayName: displayName)
         self.multiplayerSession = MCSession(peer: self.playerPeerId, securityIdentity: nil, encryptionPreference: .required)
-        self.advertiserForBroadcasting = MCNearbyServiceAdvertiser(peer: self.playerPeerId, discoveryInfo: nil, serviceType: self.multipeerServiceType)
+        self.advertiserForBroadcasting = MCNearbyServiceAdvertiser(peer: self.playerPeerId, discoveryInfo: ["gender":DataAboutPlayerSingleton.shared.providePlayerGender()], serviceType: self.multipeerServiceType)
         self.browserForConnect = MCNearbyServiceBrowser(peer: self.playerPeerId, serviceType: self.multipeerServiceType)
         AdvertiserSessionsCloser.shared.addAdvertiserAssintent(with: self.advertiserForBroadcasting)
     }
@@ -108,8 +102,11 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         if state == .connected {
             self.delegate?.setConnectionState(self, for: self.inviterIndexPath, with: .connected)
-            functionalityWhenConnectionEstablished()
+            let json = try? JSONEncoder().encode(DataAboutPlayerSingleton.shared.providePlayer())
+            guard let json else {return}
+            try? self.multiplayerSession.send(json, toPeers: self.multiplayerSession.connectedPeers, with: .reliable)
         }
+        
         if state == .notConnected {
             self.networkMonitor = NetworkConnectionCheckerManager()
             self.networkMonitor.delegate = self
@@ -118,9 +115,9 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        let dataDebugDescription = String(data: data, encoding: .utf8)
-        print(dataDebugDescription)
-
+        let dataDecoded = try? JSONDecoder().decode(SeaBattlePlayer.self, from: data)
+        guard let dataDecoded else {return}
+        functionalityWhenConnectionEstablished(dataDecoded)
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -142,8 +139,8 @@ extension MultiplayerConectionAsMPCHandler: MCNearbyServiceAdvertiserDelegate {
         if let target = self.timerTarget {
             _ = Timer.scheduledTimer(timeInterval: 30, target: target, selector:#selector(self.timerTarget?.timerResponderSelector) , userInfo: nil, repeats: false)
         }
-        guard let data = context else {return}
-        self.functionlaityWhenConnectionInviteProvided(data)
+        guard let context, let decodedData = try? JSONDecoder().decode(PlayerContextualData.self, from: context) else {return}
+        self.functionlaityWhenConnectionInviteProvided(decodedData)
         self.group.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
             invitationHandler(self.canConnect!,self.multiplayerSession)
         }
@@ -152,11 +149,11 @@ extension MultiplayerConectionAsMPCHandler: MCNearbyServiceAdvertiserDelegate {
 
 extension MultiplayerConectionAsMPCHandler: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-        self.delegate?.getPeerId(self, peerId: peerID, with: .get)
+        self.delegate?.getPeerId(self, peerId: peerID,discoveryInfo: info, with: .get)
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        self.delegate?.getPeerId(self, peerId: peerID, with: .lost)
+        self.delegate?.getPeerId(self, peerId: peerID, discoveryInfo: nil, with: .lost)
     }
  
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {

@@ -21,7 +21,6 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
     
     private let opponentIcon:UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "ShipsMapsBackground")
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -42,7 +41,6 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
     
     private let opponentNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ashot"
         label.font = .boldSystemFont(ofSize: 25)
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .white
@@ -133,6 +131,11 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
             opponentNameLabel.rightAnchor.constraint(equalTo: self.opponentIcon.rightAnchor,constant: -4),
             opponentNameLabel.bottomAnchor.constraint(equalTo: opponentIcon.bottomAnchor,constant: -3),
         ])
+    }
+    
+    func configuire(name: String, icon: Data) {
+        self.opponentNameLabel.text = name
+        self.opponentIcon.image = UIImage(data: icon)
     }
     
     func updateTimerValue(with value: String) {

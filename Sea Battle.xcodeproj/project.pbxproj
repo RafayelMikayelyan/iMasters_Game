@@ -14,6 +14,8 @@
 		570863D42AB9C6CA00CB8CAA /* MapShipsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */; };
 		570863D92AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */; };
 		570863DB2AB9F74200CB8CAA /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863DA2AB9F74200CB8CAA /* PlayerCell.swift */; };
+		571FF26E2ACB93B100E36B8C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 571FF26D2ACB93B100E36B8C /* Lottie */; };
+		571FF2712ACB94E600E36B8C /* timeLoader.json in Resources */ = {isa = PBXBuildFile; fileRef = 571FF2702ACB94E600E36B8C /* timeLoader.json */; };
 		57272F302AC5E225006FC2B3 /* PlayersTableViewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57272F2F2AC5E225006FC2B3 /* PlayersTableViewFooterView.swift */; };
 		57272F322AC5E619006FC2B3 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57272F312AC5E619006FC2B3 /* MainPageViewController.swift */; };
 		5734305C2AC22B5300353C3C /* BattleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5734305B2AC22B5300353C3C /* BattleViewController.swift */; };
@@ -54,6 +56,7 @@
 		570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapShipsFooterView.swift; sourceTree = "<group>"; };
 		570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModelCollectionView.swift; sourceTree = "<group>"; };
 		570863DA2AB9F74200CB8CAA /* PlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
+		571FF2702ACB94E600E36B8C /* timeLoader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = timeLoader.json; path = ../../../Downloads/timeLoader.json; sourceTree = "<group>"; };
 		57272F2F2AC5E225006FC2B3 /* PlayersTableViewFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersTableViewFooterView.swift; sourceTree = "<group>"; };
 		57272F312AC5E619006FC2B3 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 		5734305B2AC22B5300353C3C /* BattleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				571FF26E2ACB93B100E36B8C /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,11 +156,20 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		571FF26F2ACB94C700E36B8C /* LottieAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				571FF2702ACB94E600E36B8C /* timeLoader.json */,
+			);
+			path = LottieAnimations;
+			sourceTree = "<group>";
+		};
 		574813452AB9C30500CE9EE2 = {
 			isa = PBXGroup;
 			children = (
 				574813512AB9C30500CE9EE2 /* AppDelegate.swift */,
 				574813532AB9C30500CE9EE2 /* SceneDelegate.swift */,
+				571FF26F2ACB94C700E36B8C /* LottieAnimations */,
 				5754D9A32AC9B3A700BC46BB /* Singletons */,
 				4EAFE0342AC5E82C00945B14 /* Chess */,
 				574813502AB9C30500CE9EE2 /* Sea Battle */,
@@ -252,14 +265,22 @@
 			path = Singletons;
 			sourceTree = "<group>";
 		};
+		5754D9A82AC9FF7A00BC46BB /* ConnectionManagers */ = {
+			isa = PBXGroup;
+			children = (
+				57C84B4D2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift */,
+				579FA4EE2AC727A20004D10A /* NetworkConnectionCheckerManager.swift */,
+			);
+			path = ConnectionManagers;
+			sourceTree = "<group>";
+		};
 		57BBD7042ABC6CC70065664B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				57BBD72C2ABCBAD20065664B /* ViewModelForMapAndShips.swift */,
 				57CEF4B32AC2F92A006BB3CD /* ViewModelForBattleViewController.swift */,
 				575B5EC02AC4E06100065601 /* ViewModelForPlayersTableView.swift */,
-				57C84B4D2AC3450C00A66945 /* MultipeerConectivityServiceForMultiplayer.swift */,
-				579FA4EE2AC727A20004D10A /* NetworkConnectionCheckerManager.swift */,
+				5754D9A82AC9FF7A00BC46BB /* ConnectionManagers */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -280,6 +301,9 @@
 			dependencies = (
 			);
 			name = "Sea Battle";
+			packageProductDependencies = (
+				571FF26D2ACB93B100E36B8C /* Lottie */,
+			);
 			productName = "Sea Battle";
 			productReference = 5748134E2AB9C30500CE9EE2 /* Sea Battle.app */;
 			productType = "com.apple.product-type.application";
@@ -308,6 +332,9 @@
 				Base,
 			);
 			mainGroup = 574813452AB9C30500CE9EE2;
+			packageReferences = (
+				571FF26C2ACB93B100E36B8C /* XCRemoteSwiftPackageReference "lottie-spm" */,
+			);
 			productRefGroup = 5748134F2AB9C30500CE9EE2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -323,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5748135E2AB9C30600CE9EE2 /* LaunchScreen.storyboard in Resources */,
+				571FF2712ACB94E600E36B8C /* timeLoader.json in Resources */,
 				5748135B2AB9C30600CE9EE2 /* Assets.xcassets in Resources */,
 				574813592AB9C30500CE9EE2 /* Main.storyboard in Resources */,
 			);
@@ -528,7 +556,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -557,7 +585,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -593,6 +621,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		571FF26C2ACB93B100E36B8C /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		571FF26D2ACB93B100E36B8C /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 571FF26C2ACB93B100E36B8C /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 574813462AB9C30500CE9EE2 /* Project object */;
 }
