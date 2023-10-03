@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4EAFE0392AC5E8B500945B14 /* ChessBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAFE0382AC5E8B500945B14 /* ChessBoardViewController.swift */; };
+		4EAFE03B2AC9F7EF00945B14 /* ChessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAFE03A2AC9F7EF00945B14 /* ChessModel.swift */; };
+		4EAFE03D2AC9F82100945B14 /* ChessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAFE03C2AC9F82100945B14 /* ChessViewModel.swift */; };
 		570863D12AB9C4A800CB8CAA /* ShipsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D02AB9C4A800CB8CAA /* ShipsCell.swift */; };
 		570863D42AB9C6CA00CB8CAA /* MapShipsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */; };
 		570863D92AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */; };
@@ -46,6 +48,8 @@
 
 /* Begin PBXFileReference section */
 		4EAFE0382AC5E8B500945B14 /* ChessBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoardViewController.swift; sourceTree = "<group>"; };
+		4EAFE03A2AC9F7EF00945B14 /* ChessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChessModel.swift; path = Chess/View/ChessModel.swift; sourceTree = SOURCE_ROOT; };
+		4EAFE03C2AC9F82100945B14 /* ChessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChessViewModel.swift; path = Chess/View/ChessViewModel.swift; sourceTree = SOURCE_ROOT; };
 		570863D02AB9C4A800CB8CAA /* ShipsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipsCell.swift; sourceTree = "<group>"; };
 		570863D32AB9C6CA00CB8CAA /* MapShipsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapShipsFooterView.swift; sourceTree = "<group>"; };
 		570863D82AB9E8EA00CB8CAA /* DataSourceModelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModelCollectionView.swift; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 		4EAFE0362AC5E85400945B14 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4EAFE03A2AC9F7EF00945B14 /* ChessModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -123,6 +128,7 @@
 		4EAFE0372AC5E86100945B14 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				4EAFE03C2AC9F82100945B14 /* ChessViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -358,7 +364,9 @@
 				574813522AB9C30500CE9EE2 /* AppDelegate.swift in Sources */,
 				570863D12AB9C4A800CB8CAA /* ShipsCell.swift in Sources */,
 				575B5EC32AC4F7E700065601 /* PlayersTableViewHeaderView.swift in Sources */,
+				4EAFE03D2AC9F82100945B14 /* ChessViewModel.swift in Sources */,
 				5754D9A22AC9A11500BC46BB /* AdvertiserSessionsCloser.swift in Sources */,
+				4EAFE03B2AC9F7EF00945B14 /* ChessModel.swift in Sources */,
 				574813542AB9C30500CE9EE2 /* SceneDelegate.swift in Sources */,
 				57BBD72D2ABCBAD20065664B /* ViewModelForMapAndShips.swift in Sources */,
 			);
