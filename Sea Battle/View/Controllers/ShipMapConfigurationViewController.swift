@@ -7,6 +7,7 @@
 
 
 import UIKit
+import Lottie
 import MultipeerConnectivity
 
 extension CGRect {
@@ -80,9 +81,30 @@ final class ShipMapConfigurationViewController: UIViewController {
         return effect
     }()
     
+    private var animationView: LottieAnimationView = {
+        let animation = LottieAnimationView(name: "timeLoader")
+        animation.contentMode = .scaleAspectFit
+        animation.loopMode = .loop
+        animation.animationSpeed = 1.8
+        animation.translatesAutoresizingMaskIntoConstraints = false
+        animation.alpha = 0
+        return animation
+    }()
+    
+    private var sendingLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 40)
+        label.textColor = .white
+        label.text = "Data Sending"
+        label.alpha = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+
         self.view.backgroundColor = .white
         self.navigationBarDisablier()
         
@@ -107,7 +129,9 @@ final class ShipMapConfigurationViewController: UIViewController {
         
         view.addSubview(backgroundImage)
         view.addSubview(shipsMapCollectionView)
-        
+        view.addSubview(animationView)
+        view.addSubview(sendingLabel)
+
         NSLayoutConstraint.activate([
             backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
             backgroundImage.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -116,9 +140,17 @@ final class ShipMapConfigurationViewController: UIViewController {
             shipsMapCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             shipsMapCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             shipsMapCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            shipsMapCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
+            shipsMapCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            animationView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
+            animationView.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
+            sendingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sendingLabel.topAnchor.constraint(equalTo: animationView.bottomAnchor)
         ])
+        
         configuireWithViewModel()
+        
     }
     
     private func navigationBarDisablier() {
@@ -148,18 +180,16 @@ final class ShipMapConfigurationViewController: UIViewController {
         self.viewModel.setTimertarget()
         self.viewModel.setFunctionalityWhenConnectionEstablished { [weak self] data in
             guard let self else {return}
-            DispatchQueue.main.async(qos:.userInteractive) {
-                self.dismiss(animated: true) {
-                    self.viewModel.stopMCAdvertiserAdvertising()
-                    self.viewModel.resetBrowser()
-                    let battleViewController = BattleViewController()
-                    if self.viewModel.provideButtonType() == .join {
-                        battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canNotPlay)
-                    } else {
-                        battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canPlay)
-                    }
-                    self.show(battleViewController, sender: nil)
+            DispatchQueue.main.asyncAfter(deadline:.now() + 4,qos:.userInteractive) {
+                self.viewModel.stopMCAdvertiserAdvertising()
+                self.viewModel.resetBrowser()
+                let battleViewController = BattleViewController()
+                if self.viewModel.provideButtonType() == .join {
+                    battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canNotPlay)
+                } else {
+                    battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canPlay)
                 }
+                self.show(battleViewController, sender: nil)
             }
         }
         
@@ -192,6 +222,11 @@ final class ShipMapConfigurationViewController: UIViewController {
                 self.inviteBanner.frame.origin = CGPoint(x: 0, y: -self.view.bounds.height*0.15)
                 self.inviteBanner.removeFromSuperview()
             }
+            UIView.animate(withDuration: 0.3) {
+                self.animationView.alpha = 1
+                self.sendingLabel.alpha = 1
+                self.animationView.play()
+            }
         }
         
         self.viewModel.functionalityForStartButton = { [weak self] in
@@ -200,6 +235,7 @@ final class ShipMapConfigurationViewController: UIViewController {
                 if self.viewModel.givenConnectionStatus == .connected {
                     self.viewModel.startBrowsingOfMCBrowser()
                     let vc = MultiplayerConnectivityBrowserViewController()
+                    vc.delegate = self.viewModel
                     vc.modalPresentationStyle = .pageSheet
                     vc.setViewModelMultipeerConectivityHandler(with: self.viewModel.provideConnectivityHandler())
                     self.present(vc, animated: true)
@@ -233,6 +269,15 @@ final class ShipMapConfigurationViewController: UIViewController {
                     }))
                     self.present(alertAboutConnection,animated: true)
                 }
+            }
+        }
+        
+        self.viewModel.functionalityWhenEstablisherChangesToTrue = { [weak self] in
+            guard let self else {return}
+            UIView.animate(withDuration: 0.3) {
+                self.animationView.alpha = 1
+                self.sendingLabel.alpha = 1
+                self.animationView.play()
             }
         }
     }

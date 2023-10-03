@@ -48,6 +48,12 @@ extension ViewModelForMapAndShips: NetworkConnectionCheckerManagerDelegate {
     }
 }
 
+extension ViewModelForMapAndShips: Sender {
+    func establisheConnection(_ sender: UIViewController, canEstablishe: Bool) {
+        self.isConnectionEstablished = canEstablishe
+    }
+}
+
 final class ViewModelForMapAndShips {
     
     private var multipeerConectivityHandler: MultiplayerConectionAsMPCHandler! = nil
@@ -58,6 +64,13 @@ final class ViewModelForMapAndShips {
     private(set) var givenConnectionStatus: ConnectionStatus = .notConnected
     private var shipIndexPath:IndexPath! = nil
     private var buttontype: ButtonType! = nil
+    var isConnectionEstablished: Bool = false {
+        didSet {
+            if self.isConnectionEstablished == true {
+                self.functionalityWhenEstablisherChangesToTrue()
+            }
+        }
+    }
     private var addedShipsCount: Int = 0 {
         didSet {
             if addedShipsCount == 10 {
@@ -87,6 +100,7 @@ final class ViewModelForMapAndShips {
     var functionalityWhenInviteBannerResponse: () -> Void = {}
     var functionalityForStartButton: () -> Void = {}
     var functionalityForJoinButton: () -> Void = {}
+    var functionalityWhenEstablisherChangesToTrue: () -> Void = {}
     
     func getShipsDataModel() {
         self.givenDataOfShips = self.shipsDataModel.provideDataForShipsSectionRotatedLeft()
