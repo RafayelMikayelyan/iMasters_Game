@@ -31,21 +31,11 @@ enum ConnectingState {
 
 struct DataSourceForPlayersTableView {
     
-    private var dataSource: [MCPeerID] = [MCPeerID]() {
-        didSet {
-            functionalityWhenDataRecieved()
-        }
-    }
+    private var dataSource: [MCPeerID] = [MCPeerID]()
     
-    private var dataSourceOfGenders: [String] = [String]() {
-        didSet {
-            functionalityWhenDataRecieved()
-        }
-    }
+    private var dataSourceOfGenders: [String] = [String]()
     
     private var connectingState: [ConnectingState] = [ConnectingState]()
-    
-    var functionalityWhenDataRecieved: () -> Void = {}
     
     func provideDataForNames() -> [String] {
         return self.dataSource.map({$0.displayName})

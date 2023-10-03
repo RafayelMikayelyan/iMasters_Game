@@ -26,6 +26,8 @@ final class MultiplayerConnectivityBrowserViewController: UIViewController {
     
     private let viewModel: ViewModelForPlayersTableView = ViewModelForPlayersTableView()
     
+    weak var delegate: Sender?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +63,10 @@ final class MultiplayerConnectivityBrowserViewController: UIViewController {
         self.viewModel.functionalityWhenDataRecieved = { [weak self] in
             guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
+                if self.viewModel.isConnected() {
+                    self.dismiss(animated: true)
+                    self.delegate?.establisheConnection(self, canEstablishe: true)
+                }
                 self.playersTableView.reloadData()
             }
         }
