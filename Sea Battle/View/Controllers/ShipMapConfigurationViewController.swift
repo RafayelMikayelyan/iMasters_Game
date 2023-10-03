@@ -189,6 +189,11 @@ final class ShipMapConfigurationViewController: UIViewController {
                 } else {
                     battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canPlay)
                 }
+                UIView.animate(withDuration: 0.1) {
+                    self.animationView.stop()
+                    self.animationView.alpha = 0
+                    self.sendingLabel.alpha = 0
+                }
                 self.show(battleViewController, sender: nil)
             }
         }
@@ -223,6 +228,7 @@ final class ShipMapConfigurationViewController: UIViewController {
                 self.inviteBanner.removeFromSuperview()
             }
             UIView.animate(withDuration: 0.3) {
+                self.shipsMapCollectionView.isUserInteractionEnabled = false
                 self.animationView.alpha = 1
                 self.sendingLabel.alpha = 1
                 self.animationView.play()

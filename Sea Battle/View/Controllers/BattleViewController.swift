@@ -7,6 +7,17 @@
 
 import UIKit
 
+extension IndexPath {
+    func isValid() -> Bool {
+        switch self.item {
+        case 0,1,2,3,4,5,6,7,8,9,10,11,22,33,44,55,66,77,88,99,110:
+            return false
+        default:
+            return true
+        }
+    }
+}
+
 final class BattleViewController: UIViewController {
     
     private var viewModel: ViewModelForBattleViewController!
@@ -30,6 +41,14 @@ final class BattleViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
+    }()
+    
+    private let planeImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "MilitaryPlane"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
 
     override func viewDidLoad() {
@@ -58,6 +77,11 @@ final class BattleViewController: UIViewController {
             playerMapCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             playerMapCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
+        
+        self.planeImageView.frame.size = CGSize(width: 150, height: 200)
+        self.planeImageView.frame.origin = CGPoint(x: -150, y: (self.view.bounds.height/10)*3 + 200)
+        self.planeImageView.alpha = 0
+        self.view.addSubview(self.planeImageView)
         
         configuireViewModel()
         setUpWithPlayingStatus()
@@ -143,32 +167,58 @@ final class BattleViewController: UIViewController {
     private func configuireViewModel() {
         self.viewModel.functionalityWhenDataForSelfMapProvided = { [weak self] in
             guard let self else {return}
-            self.playerMapCollectionView.reloadData()
+            DispatchQueue.main.async(qos: .userInteractive) {
+                self.playerMapCollectionView.reloadData()
+            }
         }
-        self.viewModel.functionalityWhenDataForSelfMapProvided = { [weak self] in
+        self.viewModel.functionalityWhenDataForOpponentMapProvided = { [weak self] in
             guard let self else {return}
             self.playerMapCollectionView.reloadData()
         }
         self.viewModel.functionalityWhenPlayingStatusChanged = { [weak self] in
             guard let self else {return}
-            if self.viewModel.providePlayingStatus() == .canPlay {
-                self.playerMapCollectionView.isUserInteractionEnabled = true
-            } else {
-                self.playerMapCollectionView.isUserInteractionEnabled = false
+            DispatchQueue.main.async(qos: .userInteractive) {
+                if self.viewModel.providePlayingStatus() == .canPlay {
+                    self.playerMapCollectionView.isUserInteractionEnabled = true
+                } else {
+//                    let cell = self.playerMapCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! PlayerCellForBattleViewController
+//                    cell.updateTimerValue(with: "") there I get crash but for what? becauseee in view model you set timer to nillllll
+                    self.playerMapCollectionView.isUserInteractionEnabled = false
+                    print(self.viewModel.providePlayingStatus(),self.playerMapCollectionView.isUserInteractionEnabled)
+                }
             }
         }
         self.viewModel.getDataForSelfMap()
         self.viewModel.getDataForOpponentMap()
         self.viewModel.functionalityWhenTimerUpdates = { [weak self] in
             guard let self else {return}
-            let cell = (self.playerMapCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! PlayerCellForBattleViewController)
-            if self.viewModel.secondsRemained <= 9 && self.viewModel.secondsRemained > 0 {
-                cell.updateTimerValue(with: "00:0\(self.viewModel.secondsRemained)")
-            } else {
-                cell.updateTimerValue(with: "00:\(self.viewModel.secondsRemained)")
+            DispatchQueue.main.async(qos:.userInteractive) {
+                let cell = (self.playerMapCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! PlayerCellForBattleViewController)
+                if self.viewModel.secondsRemained <= 9 && self.viewModel.secondsRemained > 0 {
+                    cell.updateTimerValue(with: "00:0\(self.viewModel.secondsRemained)")
+                } else {
+                    cell.updateTimerValue(with: "00:\(self.viewModel.secondsRemained)")
+                }
+                if self.viewModel.secondsRemained == 0 {
+                    cell.updateTimerValue(with: "")
+                }
             }
-            if self.viewModel.secondsRemained == 0 {
-                cell.updateTimerValue(with: "")
+        }
+        
+        self.viewModel.functionalityOnHit = { [weak self] in
+            guard let self else {return}
+            DispatchQueue.main.async(qos: .userInteractive) {
+                self.planeImageView.frame.origin = CGPoint(x: -150, y: (self.view.bounds.height/10)*3 + 200)
+                self.planeImageView.alpha = 1
+                UIView.animate(withDuration: 3) {
+                    self.planeImageView.frame.origin = CGPoint(x: self.view.bounds.width, y:  -1 * self.planeImageView.bounds.height)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2, qos: .userInteractive) {
+                    self.planeImageView.alpha = 0
+                    self.playerMapCollectionView.reloadData()
+                    print("Leave")
+                    self.viewModel.group.leave()
+                }
             }
         }
     }
@@ -176,6 +226,7 @@ final class BattleViewController: UIViewController {
     private func setUpWithPlayingStatus() {
         if self.viewModel.providePlayingStatus() == .canPlay {
             self.playerMapCollectionView.isUserInteractionEnabled = true
+            self.viewModel.setTimer()
         } else {
             self.playerMapCollectionView.isUserInteractionEnabled = false
         }
@@ -267,6 +318,10 @@ extension BattleViewController: UICollectionViewDataSource {
 
 extension BattleViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.viewModel.sendData(data: indexPath.debugDescription.data(using: .utf8))
+        if indexPath.isValid() {
+            let cell = self.playerMapCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! PlayerCellForBattleViewController
+            cell.resetTimerView()
+            self.viewModel.handleHitOnopponentMap(on: indexPath)
+        }
     }
 }
