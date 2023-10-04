@@ -96,6 +96,9 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
         return self.canConnect
     }
     
+    func changeSessionDelegate(to delegate: MCSessionDelegate) {
+        self.multiplayerSession.delegate = delegate
+    }
 }
 
 extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {

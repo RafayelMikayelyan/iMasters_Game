@@ -66,4 +66,5 @@ final class CellForPlayersTableView: UITableViewCell {
     func setStateLabelText(with text: String) {
         self.connectionStateLabel.text = text
     }
+    
 }

@@ -141,4 +141,8 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
     func updateTimerValue(with value: String) {
         self.timerLibel.text = value
     }
+    
+    func resetTimerView() {
+        self.timerLibel.text = ""
+    }
 }
