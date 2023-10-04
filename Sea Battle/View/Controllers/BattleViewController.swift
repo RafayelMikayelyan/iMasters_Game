@@ -47,7 +47,6 @@ final class BattleViewController: UIViewController {
         let imageView = UIImageView(image: UIImage(named: "MilitaryPlane"))
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
@@ -85,6 +84,10 @@ final class BattleViewController: UIViewController {
         
         configuireViewModel()
         setUpWithPlayingStatus()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+//        print(self.viewModel.multipeerConectivityHandler.advertiserForBroadcasting.startAdvertisingPeer())
     }
     
     private func configuiringWithSectionLayout() {
@@ -152,7 +155,6 @@ final class BattleViewController: UIViewController {
         return nil
     }
 
-    
     private func navigationBarDisablier() {
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -181,10 +183,9 @@ final class BattleViewController: UIViewController {
                 if self.viewModel.providePlayingStatus() == .canPlay {
                     self.playerMapCollectionView.isUserInteractionEnabled = true
                 } else {
-//                    let cell = self.playerMapCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! PlayerCellForBattleViewController
-//                    cell.updateTimerValue(with: "") there I get crash but for what? becauseee in view model you set timer to nillllll
+                    //let cell = self.playerMapCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! PlayerCellForBattleViewController
+                    //cell.updateTimerValue(with: "") there I get crash but for what? becauseee in view model you set timer to nillllll
                     self.playerMapCollectionView.isUserInteractionEnabled = false
-                    print(self.viewModel.providePlayingStatus(),self.playerMapCollectionView.isUserInteractionEnabled)
                 }
             }
         }
@@ -216,7 +217,6 @@ final class BattleViewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2, qos: .userInteractive) {
                     self.planeImageView.alpha = 0
                     self.playerMapCollectionView.reloadData()
-                    print("Leave")
                     self.viewModel.group.leave()
                 }
             }
@@ -226,7 +226,6 @@ final class BattleViewController: UIViewController {
     private func setUpWithPlayingStatus() {
         if self.viewModel.providePlayingStatus() == .canPlay {
             self.playerMapCollectionView.isUserInteractionEnabled = true
-            self.viewModel.setTimer()
         } else {
             self.playerMapCollectionView.isUserInteractionEnabled = false
         }

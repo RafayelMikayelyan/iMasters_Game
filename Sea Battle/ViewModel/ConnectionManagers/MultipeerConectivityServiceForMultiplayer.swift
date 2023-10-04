@@ -68,9 +68,9 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
         self.advertiserForBroadcasting.startAdvertisingPeer()
     }
     
-    func stopAdvertising() {
-        self.advertiserForBroadcasting.startAdvertisingPeer()
-    }
+//    func stopAdvertising() {
+//        self.advertiserForBroadcasting.stopAdvertisingPeer()
+//    }
     
     func startBrowsing() {
         self.browserForConnect.startBrowsingForPeers()
@@ -80,9 +80,9 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
         self.browserForConnect.stopBrowsingForPeers()
     }
     
-    func resetBrowser() {
-        self.browserForConnect = nil
-    }
+//    func resetBrowser() {
+//        self.browserForConnect = nil
+//    }
     
     func setConnectionBarier(with barier: Bool) {
         self.canConnect = barier
@@ -99,6 +99,15 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
     func changeSessionDelegate(to delegate: MCSessionDelegate) {
         self.multiplayerSession.delegate = delegate
     }
+    
+    func changeBrowserDelegate(to delegate: MCNearbyServiceBrowserDelegate) {
+        self.browserForConnect.delegate = delegate
+    }
+    
+    func changeAdvertiserDelegate(to delegate: MCNearbyServiceAdvertiserDelegate) {
+        self.advertiserForBroadcasting.delegate = delegate
+    }
+    
 }
 
 extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {

@@ -181,13 +181,13 @@ final class ShipMapConfigurationViewController: UIViewController {
         self.viewModel.setFunctionalityWhenConnectionEstablished { [weak self] data in
             guard let self else {return}
             DispatchQueue.main.asyncAfter(deadline:.now() + 4,qos:.userInteractive) {
-                self.viewModel.stopMCAdvertiserAdvertising()
+//                self.viewModel.stopMCAdvertiserAdvertising() // I dont care about case when i in game and new player invite me to his game in my UI I dont see invite banner so after 30 seconds invitation will be authomatically cancelled!!!!!
                 self.viewModel.resetBrowser()
                 let battleViewController = BattleViewController()
                 if self.viewModel.provideButtonType() == .join {
-                    battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canNotPlay)
+                    battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data, connectorStatus: .joiner), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canNotPlay)
                 } else {
-                    battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canPlay)
+                    battleViewController.setViewModel(with: ViewModelForBattleViewController(dataModel: DataSourceForBattleViewController(dataForSelfMapSection: self.viewModel.provideDataForSelfMapOnBattle()), opponentPlayer: data, connectorStatus: .starter), conectivityHandler: self.viewModel.provideConnectivityHandler(), playingStatus: .canPlay)
                 }
                 UIView.animate(withDuration: 0.1) {
                     self.animationView.stop()

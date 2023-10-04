@@ -134,9 +134,9 @@ final class ViewModelForMapAndShips {
         self.multipeerConectivityHandler.startAdvertising()
     }
     
-    func stopMCAdvertiserAdvertising() {
-        self.multipeerConectivityHandler.stopAdvertising()
-    }
+//    func stopMCAdvertiserAdvertising() {
+//        self.multipeerConectivityHandler.stopAdvertising()
+//    }
     
     func startBrowsingOfMCBrowser() {
         self.multipeerConectivityHandler.startBrowsing()
@@ -148,7 +148,7 @@ final class ViewModelForMapAndShips {
     
     func resetBrowser() {
         self.multipeerConectivityHandler.browserForConnect.delegate = nil
-        self.multipeerConectivityHandler.resetBrowser()
+//        self.multipeerConectivityHandler.resetBrowser()
     }
     
     func provideIndexPathsForHighlighting(indexPath: IndexPath,shipIndentificator:ShipsIdentifier) {

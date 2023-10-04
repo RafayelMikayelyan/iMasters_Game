@@ -13,9 +13,31 @@ enum PlayingStatus: Codable {
     case canNotPlay
 }
 
+enum ConnectorStatus {
+    case starter
+    case joiner
+}
+
 extension ViewModelForBattleViewController: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         // There will be implementation that scenarios when one of players kill or go to background in time connected game by session state changing
+        if state == .connected {
+            print("Connected")
+        }
+        if state == .connecting {
+            print("Connecting")
+        }
+        if state == .notConnected {
+            //MARK: - Remamber that its require any tyme to disconnect so the timer to waiting add when you enshure that session pass to disconnected state
+            print("Disconnected")
+            if self.connectorStatus == .starter {
+                self.multipeerConectivityHandler.browserForConnect.startBrowsingForPeers()
+            }
+            if self.connectorStatus == .joiner {
+                //MARK: - Its allready is handled by Apple Thank YOU Apple
+                //nw_socket_handle_socket_event
+            }
+        }
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
@@ -40,10 +62,46 @@ extension ViewModelForBattleViewController: MCSessionDelegate {
     }
 }
 
+extension ViewModelForBattleViewController: MCNearbyServiceBrowserDelegate {
+    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+       print("Found")
+        if self.connecedToPeer.count == 1 {
+            print("peerIdConnected")
+            if peerID == self.connecedToPeer.first! {
+                self.multipeerConectivityHandler.browserForConnect.invitePeer(peerID, to: self.multipeerConectivityHandler.multiplayerSession, withContext: nil, timeout: 30)
+                self.multipeerConectivityHandler.browserForConnect.stopBrowsingForPeers()
+                print("peerIdConnected")
+            }
+        }
+    }
+    
+    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+        print("Lost")
+    }
+}
+
+extension ViewModelForBattleViewController: MCNearbyServiceAdvertiserDelegate {
+    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+        if self.connecedToPeer.count == 1 {
+            print("peerIdConnected")
+            if peerID == self.connecedToPeer.first! {// That equality works great!!!!!
+                invitationHandler(true,self.multipeerConectivityHandler.multiplayerSession)
+                print("ConnectionReloaded")
+            }
+        }
+    }
+}
+
 final class ViewModelForBattleViewController: NSObject {
     
-    private var multipeerConectivityHandler: MultiplayerConectionAsMPCHandler! = nil
+    private var multipeerConectivityHandler: MultiplayerConectionAsMPCHandler! = nil {
+        didSet {
+            self.connecedToPeer = self.multipeerConectivityHandler.multiplayerSession.connectedPeers
+        }
+    }
     private var opponentPlayer: SeaBattlePlayer
+    private var connectorStatus: ConnectorStatus
+    private var connecedToPeer: [MCPeerID]! = nil
     private var isStartPoint: Bool = true
     private var hittedShipsCount: Int = 0
     private(set) var group = DispatchGroup()
@@ -53,6 +111,8 @@ final class ViewModelForBattleViewController: NSObject {
                 self.secondsRemained = 30
                 self.setTimer()
             } else {
+                self.timerForPlayerAction?.invalidate()
+                self.timerForPlayerAction?.fire()
                 self.timerForPlayerAction = nil
             }
             functionalityWhenPlayingStatusChanged()
@@ -82,9 +142,10 @@ final class ViewModelForBattleViewController: NSObject {
     
     private var timerForPlayerAction: Timer! = nil
     
-    init(dataModel: DataSourceForBattleViewController, opponentPlayer: SeaBattlePlayer) {
+    init(dataModel: DataSourceForBattleViewController, opponentPlayer: SeaBattlePlayer,connectorStatus: ConnectorStatus) {
         self.dataModel = dataModel
         self.opponentPlayer = opponentPlayer
+        self.connectorStatus = connectorStatus
     }
     
     var functionalityWhenPlayingStatusChanged: () -> Void = {}
@@ -104,6 +165,11 @@ final class ViewModelForBattleViewController: NSObject {
     func setMultipeerConnectivityHandler(with handler: MultiplayerConectionAsMPCHandler) {
         self.multipeerConectivityHandler = handler
         self.multipeerConectivityHandler.changeSessionDelegate(to: self)
+        self.multipeerConectivityHandler.changeBrowserDelegate(to: self)
+        self.multipeerConectivityHandler.changeAdvertiserDelegate(to: self)
+//        if self.connectorStatus == .starter {
+//            self.multipeerConectivityHandler.startAdvertising()
+//        }
         self.multipeerConectivityHandler.addAdvertiserToCloder()
     }
     
@@ -310,7 +376,7 @@ final class ViewModelForBattleViewController: NSObject {
         }
     }
     
-    @objc private func timerUpdateSelector(_ sender: Timer) {
+    @objc private func timerUpdateSelector() {
         guard self.timerForPlayerAction != nil else {return}
         if self.secondsRemained != 0 {
             self.secondsRemained -= 1
