@@ -31,7 +31,16 @@ extension ViewModelForBattleViewController: MCSessionDelegate {
             //MARK: - Remamber that its require any tyme to disconnect so the timer to waiting add when you enshure that session pass to disconnected state
             print("Disconnected")
             if self.connectorStatus == .starter {
+                self.timerForPlayerAction?.invalidate()
+                self.timerForConnectionReesteablish = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { timer in
+                    if self.secondsRemainedForConnect != 0 {
+                        self.secondsRemainedForConnect -= 1
+                    } else {
+                        self.playingStatus = .canNotPlay
+                    }
+                })
                 self.multipeerConectivityHandler.browserForConnect.startBrowsingForPeers()
+                self.functionalityWhenOpponentDisconnected()
             }
             if self.connectorStatus == .joiner {
                 //MARK: - Its allready is handled by Apple Thank YOU Apple
@@ -45,7 +54,7 @@ extension ViewModelForBattleViewController: MCSessionDelegate {
             self.handleHitSelfMap(by: decodedData)
         }
         if let decodedData = try? JSONDecoder().decode(HitResponse.self, from: data) {
-            self.playingStatus = decodedData.playingStatus
+            self.setPlayingStatus(with: decodedData.playingStatus)  
         }
     }
     
@@ -112,8 +121,6 @@ final class ViewModelForBattleViewController: NSObject {
                 self.setTimer()
             } else {
                 self.timerForPlayerAction?.invalidate()
-                self.timerForPlayerAction?.fire()
-                self.timerForPlayerAction = nil
             }
             functionalityWhenPlayingStatusChanged()
         }
@@ -123,6 +130,18 @@ final class ViewModelForBattleViewController: NSObject {
             if self.isStartPoint {
                 functionalityWhenDataForSelfMapProvided()
             }
+        }
+    }
+    
+    private(set) var playerScores: Int = 0 {
+        didSet {
+            self.functionalityWhenScoresChanged()
+        }
+    }
+    
+    private(set) var opponentScores: Int = 0 {
+        didSet {
+            self.functionalityWhenScoresChanged()
         }
     }
     
@@ -138,7 +157,15 @@ final class ViewModelForBattleViewController: NSObject {
         }
     }
     
+    private(set) var secondsRemainedForConnect: Int = 59 {
+        didSet {
+            self.functionalityWhenTimerUpdatesWaitingOpponent()
+        }
+    }
+    
     private var dataModel: DataSourceForBattleViewController
+    
+    private var timerForConnectionReesteablish: Timer! = nil
     
     private var timerForPlayerAction: Timer! = nil
     
@@ -150,9 +177,12 @@ final class ViewModelForBattleViewController: NSObject {
     
     var functionalityWhenPlayingStatusChanged: () -> Void = {}
     var functionalityWhenTimerUpdates: () -> Void = {}
+    var functionalityWhenTimerUpdatesWaitingOpponent: () -> Void = {}
     var functionalityWhenDataForSelfMapProvided : () -> Void = {}
     var functionalityWhenDataForOpponentMapProvided : () -> Void = {}
     var functionalityOnHit: () -> Void = {}
+    var functionalityWhenOpponentDisconnected: () -> Void = {}
+    var functionalityWhenScoresChanged: () -> Void = {}
     
     func getDataForSelfMap() {
         self.providedDataForSelfMapSection = self.dataModel.provideDataForSelfMapSection()
@@ -182,7 +212,13 @@ final class ViewModelForBattleViewController: NSObject {
     }
     
     func setTimer() {
-        self.timerForPlayerAction = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerUpdateSelector), userInfo: nil, repeats: false)
+        self.timerForPlayerAction = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { timer in
+            if self.secondsRemained != 0 {
+                self.secondsRemained -= 1
+            } else {
+                self.playingStatus = .canNotPlay
+            }
+        })
     }
     
     func provideOpponentName() -> String {
@@ -200,6 +236,18 @@ final class ViewModelForBattleViewController: NSObject {
             self.providedDataForOpponentMapSection[indexPath.item] = "mappCelllRedHitted"
             try? self.multipeerConectivityHandler.multiplayerSession.send(json, toPeers: self.multipeerConectivityHandler.multiplayerSession.connectedPeers, with: .reliable)
             self.makeDestroyedShipIfItPossible(with: segment, on: indexPath)
+            switch segment {
+            case .waterMark:
+                break
+            case .oneCellShipSegment,.oneCellShipRotatedSegment:
+                self.playerScores += 10
+            case .twoCellShipFirstSegment,.twoCellShipSecondSegment,.twoCellShipRotatedFirstSegment,.twoCellShipRotatedSecondSegment:
+                self.playerScores += 20
+            case .threeCellShipFirstSegment,.threeCellShipSecondSegment,.threeCellShipThirdSegment,.threeCellShipRotatedFirstSegment,.threeCellShipRotatedSecondSegment,.threeCellShipRotatedThirdSegment:
+                self.playerScores += 30
+            case .fourCellShipFirstSegment,.fourCellShipSecondSegment,.fourCellShipThirdSegment,.fourCellShipFourthSegment,.fourCellShipRotatedFirstSegment,.fourCellShipRotatedSecondSegment,.fourCellShipRotatedThirdSegment,.fourCellShipRotatedFourthSegment:
+                self.playerScores += 40
+            }
         } else {
             if self.opponentPlayer.mapData[indexPath.item] == "mappCelll" {
                 guard let json = try? JSONEncoder().encode(HitInfo(hitIndexPath: indexPath)) else {return}
@@ -210,16 +258,28 @@ final class ViewModelForBattleViewController: NSObject {
     }
     
     func handleHitSelfMap(by info: HitInfo) {
+        self.playingStatus = .canNotPlay
         self.isStartPoint = false
-        if let _ = MapCellContainedSegment(rawValue: self.providedDataForSelfMapSection[info.hitIndexPath.item]) {
+        if let segment = MapCellContainedSegment(rawValue: self.providedDataForSelfMapSection[info.hitIndexPath.item]) {
             self.providedDataForSelfMapSection[info.hitIndexPath.item] += "Hitted"
             self.playingStatus = .canNotPlay
+            switch segment {
+            case .waterMark:
+                break
+            case .oneCellShipSegment,.oneCellShipRotatedSegment:
+                self.opponentScores += 10
+            case .twoCellShipFirstSegment,.twoCellShipSecondSegment,.twoCellShipRotatedFirstSegment,.twoCellShipRotatedSecondSegment:
+                self.opponentScores += 20
+            case .threeCellShipFirstSegment,.threeCellShipSecondSegment,.threeCellShipThirdSegment,.threeCellShipRotatedFirstSegment,.threeCellShipRotatedSecondSegment,.threeCellShipRotatedThirdSegment:
+                self.opponentScores += 30
+            case .fourCellShipFirstSegment,.fourCellShipSecondSegment,.fourCellShipThirdSegment,.fourCellShipFourthSegment,.fourCellShipRotatedFirstSegment,.fourCellShipRotatedSecondSegment,.fourCellShipRotatedThirdSegment,.fourCellShipRotatedFourthSegment:
+                self.opponentScores += 40
+            }
             self.group.enter()
             self.functionalityOnHit()
             notifyToGroup(with: .canPlay)
         } else {
             self.providedDataForSelfMapSection[info.hitIndexPath.item] = "mapCellMarked"
-            self.playingStatus = .canPlay
             self.group.enter()
             self.functionalityOnHit()
             notifyToGroup(with: .canNotPlay)
@@ -230,6 +290,11 @@ final class ViewModelForBattleViewController: NSObject {
         group.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
             guard let json = try? JSONEncoder().encode(HitResponse(playingStatus: status)) else {return}
             try? self.multipeerConectivityHandler.multiplayerSession.send(json, toPeers: self.multipeerConectivityHandler.multiplayerSession.connectedPeers, with: .reliable)
+            if status == .canPlay {
+                self.playingStatus = .canNotPlay
+            } else {
+                self.playingStatus = .canPlay
+            }
         }
     }
     
@@ -373,16 +438,6 @@ final class ViewModelForBattleViewController: NSObject {
                 self.providedDataForOpponentMapSection[indexPath.item - 33] =  "FourCellShipBrokenSegmentOneRotated"
                 self.hittedShipsCount += 1
             }
-        }
-    }
-    
-    @objc private func timerUpdateSelector() {
-        guard self.timerForPlayerAction != nil else {return}
-        if self.secondsRemained != 0 {
-            self.secondsRemained -= 1
-            self.timerForPlayerAction = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerUpdateSelector), userInfo: nil, repeats: false)
-        } else {
-            self.playingStatus = .canNotPlay
         }
     }
 }

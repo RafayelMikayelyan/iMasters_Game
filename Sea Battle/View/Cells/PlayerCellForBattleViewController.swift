@@ -56,18 +56,20 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
         return label
     }()
     
-    private let playerScoreLable: UILabel = {
+    private let playerScoreLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = "Scores:"
+        label.minimumScaleFactor = 0.2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let oponentScoreLable: UILabel = {
+    private let oponentScoreLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = "Scores:"
+        label.minimumScaleFactor = 0.2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -80,6 +82,8 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
         self.addSubview(opponentIcon)
         self.addSubview(opponentNameLabel)
         self.addSubview(timerLibel)
+        self.addSubview(playerScoreLabel)
+        self.addSubview(oponentScoreLabel)
         
         NSLayoutConstraint.activate([
             playerIcon.leftAnchor.constraint(equalTo: self.leftAnchor,constant: 10),
@@ -101,6 +105,10 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
             opponentNameLabel.leftAnchor.constraint(equalTo: self.opponentIcon.leftAnchor,constant: 7),
             opponentNameLabel.rightAnchor.constraint(equalTo: self.opponentIcon.rightAnchor,constant: -4),
             opponentNameLabel.bottomAnchor.constraint(equalTo: opponentIcon.bottomAnchor,constant: -3),
+            playerScoreLabel.leftAnchor.constraint(equalTo: playerIcon.leftAnchor),
+            playerScoreLabel.topAnchor.constraint(equalTo: playerIcon.topAnchor),
+            oponentScoreLabel.leftAnchor.constraint(equalTo: opponentIcon.leftAnchor),
+            oponentScoreLabel.topAnchor.constraint(equalTo: playerIcon.topAnchor),
         ])
     }
     
@@ -130,6 +138,10 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
             opponentNameLabel.leftAnchor.constraint(equalTo: self.opponentIcon.leftAnchor,constant: 7),
             opponentNameLabel.rightAnchor.constraint(equalTo: self.opponentIcon.rightAnchor,constant: -4),
             opponentNameLabel.bottomAnchor.constraint(equalTo: opponentIcon.bottomAnchor,constant: -3),
+            playerScoreLabel.leftAnchor.constraint(equalTo: playerIcon.leftAnchor),
+            playerScoreLabel.topAnchor.constraint(equalTo: playerIcon.topAnchor),
+            oponentScoreLabel.leftAnchor.constraint(equalTo: opponentIcon.leftAnchor),
+            oponentScoreLabel.topAnchor.constraint(equalTo: playerIcon.topAnchor),
         ])
     }
     
@@ -145,4 +157,13 @@ final class PlayerCellForBattleViewController: UICollectionViewCell {
     func resetTimerView() {
         self.timerLibel.text = ""
     }
+    
+    func setPlayerScore(with score: Int) {
+        self.playerScoreLabel.text = "Scores: \(score)"
+    }
+    
+    func setOpponentScore(with score: Int) {
+        self.oponentScoreLabel.text = "Scores: \(score)"
+    }
+    
 }

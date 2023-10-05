@@ -7,6 +7,10 @@
 
 import MultipeerConnectivity
 
+protocol ConnectionStatusRecieverDelegate: AnyObject {
+    func setConnectionState(_ sender: MultiplayerConectionAsMPCHandler, with state: ConnectingState)
+}
+
 protocol PeerIDRecieverDelegate: AnyObject {
     func getPeerId(_ sender: MultiplayerConectionAsMPCHandler,peerId: MCPeerID,discoveryInfo: [String:String]?, with type: DataType)
     func setConnectionState(_ sender: MultiplayerConectionAsMPCHandler,for index: IndexPath, with state: ConnectingState)
@@ -22,6 +26,7 @@ extension MultiplayerConectionAsMPCHandler: NetworkConnectionCheckerManagerDeleg
         if self.givenNetworkConnectionStatus == .connected {
             self.delegate?.setConnectionState(self, for: self.inviterIndexPath, with: .canceled)
         } else {
+            self.joinerDelegate?.setConnectionState(self, with: .networkMissing)
             self.delegate?.setConnectionState(self, for: self.inviterIndexPath, with: .networkMissing)
         }
     }
@@ -45,6 +50,7 @@ final class MultiplayerConectionAsMPCHandler: NSObject {
     private var inviterIndexPath: IndexPath! = nil
     weak var delegate:PeerIDRecieverDelegate?
     weak var timerTarget: TimerResponder?
+    weak var joinerDelegate: ConnectionStatusRecieverDelegate?
 
     init(displayName: String) {
         self.playerPeerId = MCPeerID(displayName: displayName)
@@ -119,7 +125,7 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
             try? self.multiplayerSession.send(json, toPeers: self.multiplayerSession.connectedPeers, with: .reliable)
         }
         
-        if state == .notConnected {
+        if state == .notConnected {// when opponent taps to cancel on invite baner my multiplayer pass into not connected state and then i ask to my network monitor if my connection state : WIFI is connected if yes then opponents taps to cancel or dont responce to my invite
             self.networkMonitor = NetworkConnectionCheckerManager()
             self.networkMonitor.delegate = self
             self.networkMonitor.provideConnectionStatus()

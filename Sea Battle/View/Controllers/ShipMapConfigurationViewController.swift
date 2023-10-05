@@ -220,18 +220,20 @@ final class ShipMapConfigurationViewController: UIViewController {
             }
         }
         
-        self.viewModel.functionalityWhenInviteBannerResponse = { [weak self] in
+        self.viewModel.functionalityWhenInviteBannerResponse = { [weak self] isGetted in
             guard let self else {return}
             UIView.animate(withDuration: 0.5) {
                 self.blurWithBanner.alpha = 0
                 self.inviteBanner.frame.origin = CGPoint(x: 0, y: -self.view.bounds.height*0.15)
                 self.inviteBanner.removeFromSuperview()
             }
-            UIView.animate(withDuration: 0.3) {
-                self.shipsMapCollectionView.isUserInteractionEnabled = false
-                self.animationView.alpha = 1
-                self.sendingLabel.alpha = 1
-                self.animationView.play()
+            if isGetted {
+                UIView.animate(withDuration: 0.3) {
+                    self.shipsMapCollectionView.isUserInteractionEnabled = false
+                    self.animationView.alpha = 1
+                    self.sendingLabel.alpha = 1
+                    self.animationView.play()
+                }
             }
         }
         
@@ -263,6 +265,7 @@ final class ShipMapConfigurationViewController: UIViewController {
             guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
                 if self.viewModel.givenConnectionStatus == .connected {
+                    self.viewModel.setUpWithMultipeerConectivityJoinerDelegate()
                     self.viewModel.startMCAdvertiserAdvertising()
                 } else {
                     let alertAboutConnection = UIAlertController(title: "Connection to WI-Fi missing", message: "Please check your connection to WI-Fi or Personal Hotspot to connect with other player.", preferredStyle: .alert)
@@ -284,6 +287,24 @@ final class ShipMapConfigurationViewController: UIViewController {
                 self.animationView.alpha = 1
                 self.sendingLabel.alpha = 1
                 self.animationView.play()
+            }
+        }
+        
+        self.viewModel.functionalityWhenConnectioStatusChanged = { [weak self] in
+            guard let self else {return}
+            DispatchQueue.main.async(qos: .userInteractive) {
+                self.sendingLabel.text = "Connection Lost"
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5,qos: .userInteractive) {
+                    UIView.animate(withDuration: 0.5) {
+                        self.animationView.alpha = 0
+                        self.sendingLabel.alpha = 0
+                        self.animationView.stop()
+                    }
+                    self.shipsMapCollectionView.isUserInteractionEnabled = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.sendingLabel.text = "Data Sending"
+                    }
+                }
             }
         }
     }
@@ -465,7 +486,7 @@ final class ShipMapConfigurationViewController: UIViewController {
         self.viewModel.performRotation(on: indexPath, with: shipIdentifier)
     }
     
-    func errorThrowWhenMapIsNotSetted(sender: UIButton) {
+    private func errorThrowWhenMapIsNotSetted(sender: UIButton) {
         sender.isEnabled = false
         self.view.addSubview(errorMessageView)
         NSLayoutConstraint.activate([
@@ -501,7 +522,6 @@ final class ShipMapConfigurationViewController: UIViewController {
             DataAboutPlayerSingleton.shared.setPlayer(with: self.viewModel.provideDataForSelfMapOnBattle())
             self.viewModel.setButtonType(with: .join)
             self.viewModel.setDelegateToNetworkManager()
-            
         } else {
             errorThrowWhenMapIsNotSetted(sender: sender)
         }

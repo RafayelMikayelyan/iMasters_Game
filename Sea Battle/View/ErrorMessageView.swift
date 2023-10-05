@@ -48,4 +48,7 @@ final class ErrorMessageView: UIView {
         ])
     }
     
+    func setLabelText(with text: String) {
+        self.errorLabel.text = text
+    }
 }

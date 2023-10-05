@@ -49,6 +49,12 @@ final class BattleViewController: UIViewController {
         imageView.clipsToBounds = true
         return imageView
     }()
+    
+    private let viewWhenOpponentLeavesTheGame: ErrorMessageView = {
+        let view = ErrorMessageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -206,6 +212,20 @@ final class BattleViewController: UIViewController {
             }
         }
         
+        self.viewModel.functionalityWhenTimerUpdatesWaitingOpponent = { [weak self] in
+            guard let self else {return}
+            DispatchQueue.main.async(qos:.userInteractive) {
+                if self.viewModel.secondsRemainedForConnect <= 9 && self.viewModel.secondsRemained > 0 {
+                    self.viewWhenOpponentLeavesTheGame.setLabelText(with: "00:0\(self.viewModel.secondsRemained)")
+                } else {
+                    self.viewWhenOpponentLeavesTheGame.setLabelText(with: "00:\(self.viewModel.secondsRemained)")
+                }
+                if self.viewModel.secondsRemainedForConnect == 0 {
+                    self.viewWhenOpponentLeavesTheGame.setLabelText(with: "")
+                }
+            }
+        }
+        
         self.viewModel.functionalityOnHit = { [weak self] in
             guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
@@ -219,6 +239,25 @@ final class BattleViewController: UIViewController {
                     self.playerMapCollectionView.reloadData()
                     self.viewModel.group.leave()
                 }
+            }
+        }
+        
+        self.viewModel.functionalityWhenOpponentDisconnected = { [weak self] in
+            guard let self else {return}
+            DispatchQueue.main.async(qos: .userInteractive) {
+                self.view.addSubview(self.viewWhenOpponentLeavesTheGame)
+                NSLayoutConstraint.activate([
+                    self.viewWhenOpponentLeavesTheGame.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                    self.viewWhenOpponentLeavesTheGame.centerYAnchor.constraint(equalTo:self.view.centerYAnchor)
+                ])
+                self.viewWhenOpponentLeavesTheGame.setLabelText(with: "Waiting for opponent  00:\(self.viewModel.secondsRemainedForConnect)")
+            }
+        }
+        
+        self.viewModel.functionalityWhenScoresChanged = { [weak self] in
+            guard let self else {return}
+            DispatchQueue.main.async(qos: .userInteractive) {
+                self.playerMapCollectionView.reloadData()
             }
         }
     }
@@ -253,6 +292,8 @@ extension BattleViewController: UICollectionViewDataSource {
         if indexPath.section == 0 {
             let cell = self.playerMapCollectionView.dequeueReusableCell(withReuseIdentifier: "playerCell", for: indexPath) as! PlayerCellForBattleViewController
             cell.configuire(name: self.viewModel.provideOpponentName(), icon: self.viewModel.provideOpponentIcon())
+            cell.setPlayerScore(with: self.viewModel.playerScores)
+            cell.setOpponentScore(with: self.viewModel.opponentScores)
             return cell
         } else if indexPath.section == 1 {
             if !(["","A","B","C","D","E","F","G","H","I","J","1","2","3","4","5","6","7","8","9","10"].contains(self.viewModel.providedDataForSelfMapSection[indexPath.item])) {

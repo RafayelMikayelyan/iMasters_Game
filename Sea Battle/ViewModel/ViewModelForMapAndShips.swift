@@ -18,7 +18,7 @@ extension ViewModelForMapAndShips: TimerResponder {
         if self.multipeerConectivityHandler.provideCannectionBarier() == nil {
             self.multipeerConectivityHandler.setConnectionBarier(with: false)
             self.multipeerConectivityHandler.group.leave()
-            self.functionalityWhenInviteBannerResponse()
+            self.functionalityWhenInviteBannerResponse(false)
         }
     }
 }
@@ -27,13 +27,26 @@ extension ViewModelForMapAndShips: InviteBannerViewTarget {
     @objc func inviteBannerTarhetForGet(_ sender: UIButton) {
         self.multipeerConectivityHandler.setConnectionBarier(with: true)
         self.leaveInovationToMultipeerConnectivity()
-        functionalityWhenInviteBannerResponse()
+        functionalityWhenInviteBannerResponse(true)
     }
     
     @objc func inviteBannerTarhetForCancel(_ sender: UIButton) {
         self.multipeerConectivityHandler.setConnectionBarier(with: false)
         self.leaveInovationToMultipeerConnectivity()
-        functionalityWhenInviteBannerResponse()
+        functionalityWhenInviteBannerResponse(false)
+    }
+}
+
+extension ViewModelForMapAndShips: ConnectionStatusRecieverDelegate {
+    func setConnectionState(_ sender: MultiplayerConectionAsMPCHandler, with state: ConnectingState) {
+        switch state {
+        case .notNonnected:
+            self.givenConnectionStatus = .notConnected
+        case .networkMissing:
+            self.givenConnectionStatus = .notConnected
+        default:
+            break
+        }
     }
 }
 
@@ -61,7 +74,13 @@ final class ViewModelForMapAndShips {
     private var mapDataModel: MapDataModel = MapDataModel()
     private var networkConnectionMonitor = NetworkConnectionCheckerManager()
     private(set) var setOfIndexPathsForHighlighting: Set<IndexPath> = Set<IndexPath>()
-    private(set) var givenConnectionStatus: ConnectionStatus = .notConnected
+    private(set) var givenConnectionStatus: ConnectionStatus = .notConnected {
+        willSet {
+            if newValue == .notConnected {
+                functionalityWhenConnectioStatusChanged()
+            }
+        }
+    }
     private var shipIndexPath:IndexPath! = nil
     private var buttontype: ButtonType! = nil
     var isConnectionEstablished: Bool = false {
@@ -97,10 +116,11 @@ final class ViewModelForMapAndShips {
     var functionalityWhenShipsSectionDataProvided: () -> Void = {}
     var functionalityWhenShipsCountAdded: () -> Void = {}
     var functionalityWhenMapSectionDataProvided: () -> Void = {}
-    var functionalityWhenInviteBannerResponse: () -> Void = {}
+    var functionalityWhenInviteBannerResponse: (Bool) -> Void = {_ in }
     var functionalityForStartButton: () -> Void = {}
     var functionalityForJoinButton: () -> Void = {}
     var functionalityWhenEstablisherChangesToTrue: () -> Void = {}
+    var functionalityWhenConnectioStatusChanged: () -> Void = {}
     
     func getShipsDataModel() {
         self.givenDataOfShips = self.shipsDataModel.provideDataForShipsSectionRotatedLeft()
@@ -137,6 +157,9 @@ final class ViewModelForMapAndShips {
 //    func stopMCAdvertiserAdvertising() {
 //        self.multipeerConectivityHandler.stopAdvertising()
 //    }
+    func setUpWithMultipeerConectivityJoinerDelegate() {
+        self.multipeerConectivityHandler.joinerDelegate = self
+    }
     
     func startBrowsingOfMCBrowser() {
         self.multipeerConectivityHandler.startBrowsing()
@@ -895,5 +918,4 @@ final class ViewModelForMapAndShips {
     func setButtonType(with type: ButtonType) {
         self.buttontype = type
     }
-
 }
