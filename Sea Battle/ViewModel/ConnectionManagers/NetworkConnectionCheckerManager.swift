@@ -19,6 +19,7 @@ protocol NetworkConnectionCheckerManagerDelegate: AnyObject {
 final class NetworkConnectionCheckerManager {
     
     private let networkMonitor = NWPathMonitor(requiredInterfaceType: .wifi)
+    private let nwInterface = NWInterface.InterfaceType
     private let queueForHandlingMonitoringEvents = DispatchQueue.global(qos: .userInteractive)
     weak var delegate: NetworkConnectionCheckerManagerDelegate?
     

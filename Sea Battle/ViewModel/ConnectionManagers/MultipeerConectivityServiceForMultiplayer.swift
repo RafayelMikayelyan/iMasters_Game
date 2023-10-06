@@ -155,7 +155,9 @@ extension MultiplayerConectionAsMPCHandler: MCSessionDelegate {
 extension MultiplayerConectionAsMPCHandler: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         if let target = self.timerTarget {
-            _ = Timer.scheduledTimer(timeInterval: 30, target: target, selector:#selector(self.timerTarget?.timerResponderSelector) , userInfo: nil, repeats: false)
+            DispatchQueue.main.async(qos: .userInteractive) {
+                _ = Timer.scheduledTimer(timeInterval: 30, target: target, selector:#selector(self.timerTarget?.timerResponderSelector) , userInfo: nil, repeats: false)
+            }
         }
         guard let context, let decodedData = try? JSONDecoder().decode(PlayerContextualData.self, from: context) else {return}
         self.functionlaityWhenConnectionInviteProvided(decodedData)

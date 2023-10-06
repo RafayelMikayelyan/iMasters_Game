@@ -216,9 +216,9 @@ final class BattleViewController: UIViewController {
             guard let self else {return}
             DispatchQueue.main.async(qos:.userInteractive) {
                 if self.viewModel.secondsRemainedForConnect <= 9 && self.viewModel.secondsRemained > 0 {
-                    self.viewWhenOpponentLeavesTheGame.setLabelText(with: "00:0\(self.viewModel.secondsRemained)")
+                    self.viewWhenOpponentLeavesTheGame.setLabelText(with: "Waiting for opponent  00:\(self.viewModel.secondsRemainedForConnect)")
                 } else {
-                    self.viewWhenOpponentLeavesTheGame.setLabelText(with: "00:\(self.viewModel.secondsRemained)")
+                    self.viewWhenOpponentLeavesTheGame.setLabelText(with: "Waiting for opponent  00:\(self.viewModel.secondsRemainedForConnect)")
                 }
                 if self.viewModel.secondsRemainedForConnect == 0 {
                     self.viewWhenOpponentLeavesTheGame.setLabelText(with: "")
@@ -245,12 +245,12 @@ final class BattleViewController: UIViewController {
         self.viewModel.functionalityWhenOpponentDisconnected = { [weak self] in
             guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
+                self.viewWhenOpponentLeavesTheGame.setLabelText(with: "Waiting for opponent  00:\(self.viewModel.secondsRemainedForConnect)")
                 self.view.addSubview(self.viewWhenOpponentLeavesTheGame)
                 NSLayoutConstraint.activate([
                     self.viewWhenOpponentLeavesTheGame.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
                     self.viewWhenOpponentLeavesTheGame.centerYAnchor.constraint(equalTo:self.view.centerYAnchor)
                 ])
-                self.viewWhenOpponentLeavesTheGame.setLabelText(with: "Waiting for opponent  00:\(self.viewModel.secondsRemainedForConnect)")
             }
         }
         
@@ -258,6 +258,25 @@ final class BattleViewController: UIViewController {
             guard let self else {return}
             DispatchQueue.main.async(qos: .userInteractive) {
                 self.playerMapCollectionView.reloadData()
+            }
+        }
+        
+        self.viewModel.desablingSetterOfCollectionView = { [weak self] in
+            guard let self else {return}
+            DispatchQueue.main.async(qos: .userInteractive) {
+                self.playerMapCollectionView.isUserInteractionEnabled = false
+            }
+        }
+        
+        self.viewModel.functionalityWhenConnectionReesteablished = { [weak self] in
+            guard let self else {return}
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.2) {
+                    self.viewWhenOpponentLeavesTheGame.alpha = 0
+                }
+                if self.view.subviews.contains(self.viewWhenOpponentLeavesTheGame) {
+                    self.viewWhenOpponentLeavesTheGame.removeFromSuperview()
+                }
             }
         }
     }

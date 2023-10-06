@@ -9,6 +9,7 @@
 import UIKit
 import Lottie
 import MultipeerConnectivity
+import SystemConfiguration.CaptiveNetwork
 
 extension CGRect {
     var tail: CGPoint { // tail introduced because when gesture location we pass to origin frame layed under the finger and become unvisible

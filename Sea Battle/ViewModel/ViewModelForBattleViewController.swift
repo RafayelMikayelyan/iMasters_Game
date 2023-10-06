@@ -22,29 +22,50 @@ extension ViewModelForBattleViewController: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         // There will be implementation that scenarios when one of players kill or go to background in time connected game by session state changing
         if state == .connected {
-            print("Connected")
+            self.timerForConnectionReesteablish.invalidate()
+            self.timerForConnectionReesteablish.fire()
+            self.functionalityWhenConnectionReesteablished()
+            if self.playingStatus == .canPlay {
+                self.playingStatus = .canPlay
+            }
         }
-        if state == .connecting {
-            print("Connecting")
-        }
+        
         if state == .notConnected {
             //MARK: - Remamber that its require any tyme to disconnect so the timer to waiting add when you enshure that session pass to disconnected state
-            print("Disconnected")
             if self.connectorStatus == .starter {
-                self.timerForPlayerAction?.invalidate()
-                self.timerForConnectionReesteablish = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { timer in
-                    if self.secondsRemainedForConnect != 0 {
-                        self.secondsRemainedForConnect -= 1
-                    } else {
-                        self.playingStatus = .canNotPlay
-                    }
-                })
+                self.desablingSetterOfCollectionView()
+                self.timerForPlayerAction.invalidate()
+                self.timerForPlayerAction.fire()
+                DispatchQueue.main.async(qos: .userInteractive) {
+                    self.timerForConnectionReesteablish = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] timer in
+                        guard let self else {return}
+                        if self.secondsRemainedForConnect != 0 {
+                            self.secondsRemainedForConnect -= 1
+                        } else {
+                            self.playingStatus = .canPlay
+                        }
+                    })
+                }
                 self.multipeerConectivityHandler.browserForConnect.startBrowsingForPeers()
                 self.functionalityWhenOpponentDisconnected()
             }
             if self.connectorStatus == .joiner {
                 //MARK: - Its allready is handled by Apple Thank YOU Apple
                 //nw_socket_handle_socket_event
+                self.desablingSetterOfCollectionView()
+                self.timerForPlayerAction.invalidate()
+                self.timerForPlayerAction.fire()
+                DispatchQueue.main.async(qos: .userInteractive) {
+                    self.timerForConnectionReesteablish = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] timer in
+                        guard let self else {return}
+                        if self.secondsRemainedForConnect != 0 {
+                            self.secondsRemainedForConnect -= 1
+                        } else {
+                            self.playingStatus = .canPlay
+                        }
+                    })
+                }
+                self.functionalityWhenOpponentDisconnected()
             }
         }
     }
@@ -73,29 +94,37 @@ extension ViewModelForBattleViewController: MCSessionDelegate {
 
 extension ViewModelForBattleViewController: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-       print("Found")
         if self.connecedToPeer.count == 1 {
-            print("peerIdConnected")
+            if peerID == self.connecedToPeer.first! && !self.multipeerConectivityHandler.multiplayerSession.connectedPeers.isEmpty && self.playingStatus == .canPlay {// if joiner leave the game and connection lost, when he come back starter found his peerID and if he had lost connection he pass into if block on bottom and never pass into this block but when he had not lost the connection he pass into this block first and by return leave this delegate function whole
+                self.playingStatus = .canPlay
+                return
+            }
             if peerID == self.connecedToPeer.first! {
-                self.multipeerConectivityHandler.browserForConnect.invitePeer(peerID, to: self.multipeerConectivityHandler.multiplayerSession, withContext: nil, timeout: 30)
-                self.multipeerConectivityHandler.browserForConnect.stopBrowsingForPeers()
-                print("peerIdConnected")
+                if self.connectorStatus == .starter {
+                    self.multipeerConectivityHandler.browserForConnect.invitePeer(peerID, to: self.multipeerConectivityHandler.multiplayerSession, withContext: nil, timeout: 30)
+                    self.multipeerConectivityHandler.browserForConnect.stopBrowsingForPeers()
+                }
+                return
             }
         }
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        print("Lost")
+        if self.connecedToPeer.count == 1 {
+            if peerID == self.connecedToPeer.first! {
+                self.desablingSetterOfCollectionView()
+                self.timerForPlayerAction.invalidate()
+                self.timerForPlayerAction.fire()
+            }
+        }
     }
 }
 
 extension ViewModelForBattleViewController: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         if self.connecedToPeer.count == 1 {
-            print("peerIdConnected")
             if peerID == self.connecedToPeer.first! {// That equality works great!!!!!
                 invitationHandler(true,self.multipeerConectivityHandler.multiplayerSession)
-                print("ConnectionReloaded")
             }
         }
     }
@@ -112,19 +141,25 @@ final class ViewModelForBattleViewController: NSObject {
     private var connectorStatus: ConnectorStatus
     private var connecedToPeer: [MCPeerID]! = nil
     private var isStartPoint: Bool = true
-    private var hittedShipsCount: Int = 0
+    private var hittedShipsCount: Int = 0 {
+        didSet {
+            
+        }
+    }
     private(set) var group = DispatchGroup()
     private var playingStatus: PlayingStatus! = nil {
         didSet {
             if self.playingStatus == .canPlay {
-                self.secondsRemained = 30
+                self.secondsRemained = 29
                 self.setTimer()
             } else {
-                self.timerForPlayerAction?.invalidate()
+                self.timerForPlayerAction.invalidate()
+                self.timerForPlayerAction.fire()
             }
             functionalityWhenPlayingStatusChanged()
         }
     }
+        
     private(set) var providedDataForSelfMapSection: [String] = [String]() {
         didSet{
             if self.isStartPoint {
@@ -153,7 +188,7 @@ final class ViewModelForBattleViewController: NSObject {
     
     private(set) var secondsRemained: Int = 30 {
         didSet {
-            functionalityWhenTimerUpdates()
+                self.functionalityWhenTimerUpdates()
         }
     }
     
@@ -165,9 +200,9 @@ final class ViewModelForBattleViewController: NSObject {
     
     private var dataModel: DataSourceForBattleViewController
     
-    private var timerForConnectionReesteablish: Timer! = nil
+    private var timerForConnectionReesteablish: Timer = Timer()
     
-    private var timerForPlayerAction: Timer! = nil
+    private var timerForPlayerAction: Timer = Timer()
     
     init(dataModel: DataSourceForBattleViewController, opponentPlayer: SeaBattlePlayer,connectorStatus: ConnectorStatus) {
         self.dataModel = dataModel
@@ -183,6 +218,8 @@ final class ViewModelForBattleViewController: NSObject {
     var functionalityOnHit: () -> Void = {}
     var functionalityWhenOpponentDisconnected: () -> Void = {}
     var functionalityWhenScoresChanged: () -> Void = {}
+    var desablingSetterOfCollectionView: () -> Void = {}
+    var functionalityWhenConnectionReesteablished: () -> Void = {}
     
     func getDataForSelfMap() {
         self.providedDataForSelfMapSection = self.dataModel.provideDataForSelfMapSection()
@@ -212,13 +249,20 @@ final class ViewModelForBattleViewController: NSObject {
     }
     
     func setTimer() {
-        self.timerForPlayerAction = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { timer in
-            if self.secondsRemained != 0 {
-                self.secondsRemained -= 1
-            } else {
-                self.playingStatus = .canNotPlay
-            }
-        })
+        self.timerForPlayerAction.invalidate()
+        self.timerForPlayerAction.fire()
+        DispatchQueue.main.async(qos: .userInteractive) {// FOR WHAT????
+            self.timerForPlayerAction = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] timer in
+                guard let self else {return}
+                if self.secondsRemained != 0 {
+                    self.secondsRemained -= 1
+                } else {
+                    self.playingStatus = .canNotPlay
+                    guard let json = try? JSONEncoder().encode(HitResponse(playingStatus: .canPlay)) else {return}
+                    try? self.multipeerConectivityHandler.multiplayerSession.send(json, toPeers: self.multipeerConectivityHandler.multiplayerSession.connectedPeers, with: .reliable)
+                }
+            })
+        }
     }
     
     func provideOpponentName() -> String {
@@ -291,7 +335,7 @@ final class ViewModelForBattleViewController: NSObject {
             guard let json = try? JSONEncoder().encode(HitResponse(playingStatus: status)) else {return}
             try? self.multipeerConectivityHandler.multiplayerSession.send(json, toPeers: self.multipeerConectivityHandler.multiplayerSession.connectedPeers, with: .reliable)
             if status == .canPlay {
-                self.playingStatus = .canNotPlay
+                self.playingStatus = .canNotPlay// there are setted from background thread and so this error about timer was accured, but for what i must set it in main thread?
             } else {
                 self.playingStatus = .canPlay
             }
