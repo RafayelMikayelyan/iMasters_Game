@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E254AB52AD15EA60071A628 /* BackGroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E254AB42AD15EA60071A628 /* BackGroundView.swift */; };
+		4E254AB72AD165260071A628 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E254AB62AD165260071A628 /* CellView.swift */; };
 		4EAFE0392AC5E8B500945B14 /* ChessBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAFE0382AC5E8B500945B14 /* ChessBoardViewController.swift */; };
 		4EAFE03B2AC9F7EF00945B14 /* ChessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAFE03A2AC9F7EF00945B14 /* ChessModel.swift */; };
 		4EAFE03D2AC9F82100945B14 /* ChessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAFE03C2AC9F82100945B14 /* ChessViewModel.swift */; };
@@ -49,6 +51,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E254AB42AD15EA60071A628 /* BackGroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackGroundView.swift; sourceTree = "<group>"; };
+		4E254AB62AD165260071A628 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		4EAFE0382AC5E8B500945B14 /* ChessBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoardViewController.swift; sourceTree = "<group>"; };
 		4EAFE03A2AC9F7EF00945B14 /* ChessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChessModel.swift; path = Chess/View/ChessModel.swift; sourceTree = SOURCE_ROOT; };
 		4EAFE03C2AC9F82100945B14 /* ChessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChessViewModel.swift; path = Chess/View/ChessViewModel.swift; sourceTree = SOURCE_ROOT; };
@@ -106,6 +110,7 @@
 		4EAFE0342AC5E82C00945B14 /* Chess */ = {
 			isa = PBXGroup;
 			children = (
+				574813572AB9C30500CE9EE2 /* Main.storyboard */,
 				4EAFE0362AC5E85400945B14 /* Model */,
 				4EAFE0352AC5E84800945B14 /* View */,
 				4EAFE0372AC5E86100945B14 /* ViewModel */,
@@ -117,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				4EAFE0382AC5E8B500945B14 /* ChessBoardViewController.swift */,
+				4E254AB42AD15EA60071A628 /* BackGroundView.swift */,
+				4E254AB62AD165260071A628 /* CellView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -159,7 +166,10 @@
 		571FF26F2ACB94C700E36B8C /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< Updated upstream
 				578369AC2ACC421100D9F017 /* timeLoader.json */,
+=======
+>>>>>>> Stashed changes
 			);
 			path = LottieAnimations;
 			sourceTree = "<group>";
@@ -191,7 +201,6 @@
 				570863D72AB9E8D600CB8CAA /* Model */,
 				574813652AB9C30C00CE9EE2 /* View */,
 				57BBD7042ABC6CC70065664B /* ViewModel */,
-				574813572AB9C30500CE9EE2 /* Main.storyboard */,
 				5748135A2AB9C30600CE9EE2 /* Assets.xcassets */,
 				5748135C2AB9C30600CE9EE2 /* LaunchScreen.storyboard */,
 				5748135F2AB9C30600CE9EE2 /* Info.plist */,
@@ -350,7 +359,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5748135E2AB9C30600CE9EE2 /* LaunchScreen.storyboard in Resources */,
+<<<<<<< Updated upstream
 				578369AD2ACC421100D9F017 /* timeLoader.json in Resources */,
+=======
+>>>>>>> Stashed changes
 				5748135B2AB9C30600CE9EE2 /* Assets.xcassets in Resources */,
 				574813592AB9C30500CE9EE2 /* Main.storyboard in Resources */,
 			);
@@ -371,6 +383,7 @@
 				57BBD72F2ABCE61E0065664B /* ImageViewWithShipIdetifier.swift in Sources */,
 				574813712AB9C3DC00CE9EE2 /* DecorationViewForMapAndShips.swift in Sources */,
 				57EF4FD52ABDE2AA0042DACD /* MapColumnOrRowCell.swift in Sources */,
+				4E254AB72AD165260071A628 /* CellView.swift in Sources */,
 				57272F322AC5E619006FC2B3 /* MainPageViewController.swift in Sources */,
 				570863D42AB9C6CA00CB8CAA /* MapShipsFooterView.swift in Sources */,
 				57CEF4B82AC312FF006BB3CD /* PlayerCellForBattleViewController.swift in Sources */,
@@ -391,6 +404,7 @@
 				5734305E2AC237CC00353C3C /* ErrorMessageView.swift in Sources */,
 				574813522AB9C30500CE9EE2 /* AppDelegate.swift in Sources */,
 				570863D12AB9C4A800CB8CAA /* ShipsCell.swift in Sources */,
+				4E254AB52AD15EA60071A628 /* BackGroundView.swift in Sources */,
 				575B5EC32AC4F7E700065601 /* PlayersTableViewHeaderView.swift in Sources */,
 				4EAFE03D2AC9F82100945B14 /* ChessViewModel.swift in Sources */,
 				5754D9A22AC9A11500BC46BB /* AdvertiserSessionsCloser.swift in Sources */,
